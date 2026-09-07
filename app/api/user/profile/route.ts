@@ -23,13 +23,21 @@ export async function GET(request: NextRequest) {
 
     const { data: profile } = await supabase
       .from("profiles")
-      .select("*, user_prefixes(prefix, color)")
+      .select("*")
       .eq("id", user.id)
       .single();
 
     if (!profile) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
 
-    return NextResponse.json(profile);
+    const { data: prefix } = await supabase
+      .from("user_prefixes")
+      .select("prefix, color")
+      .eq("role", profile.role)
+      .eq("is_active", true)
+      .limit(1)
+      .single();
+
+    return NextResponse.json({ ...profile, user_prefixes: prefix });
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : "Unknown error" }, { status: 500 });
   }
