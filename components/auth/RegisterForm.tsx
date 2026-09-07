@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { createClient } from "@/lib/supabase/client";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -26,31 +25,31 @@ export function RegisterForm() {
       return;
     }
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          nickname,
-          birth_date: birthDate || null,
-        },
-      },
-    });
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, nickname, birth_date: birthDate || null }),
+      });
 
-    if (error) {
-      setError(
-        error.message.includes("already")
-          ? "Аккаунт с таким email уже существует"
-          : "Не удалось создать аккаунт. Попробуйте позже."
-      );
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(
+          data.error?.includes("already")
+            ? "Аккаунт с таким email уже существует"
+            : data.error || "Не удалось создать аккаунт"
+        );
+        setLoading(false);
+        return;
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch (e) {
+      setError("Ошибка сети. Попробуйте позже.");
       setLoading(false);
-      return;
     }
-
-    // Профиль создаётся триггером handle_new_user() на стороне БД
-    router.push("/dashboard");
-    router.refresh();
   }
 
   return (
