@@ -44,8 +44,7 @@ export function RegisterForm() {
         created_at: new Date().toISOString(),
       });
 
-      router.push("/dashboard");
-      router.refresh();
+      window.location.href = "/dashboard";
     } catch (e: unknown) {
       const err = e as { code?: string; message?: string };
       setError(

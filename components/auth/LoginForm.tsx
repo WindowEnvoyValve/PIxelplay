@@ -21,8 +21,7 @@ export function LoginForm() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push("/dashboard");
-      router.refresh();
+      window.location.href = "/dashboard";
     } catch (e: unknown) {
       const err = e as { code?: string; message?: string };
       setError(

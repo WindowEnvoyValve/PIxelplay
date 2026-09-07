@@ -10,21 +10,8 @@ export async function middleware(request: NextRequest) {
   const isProtected = PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
   const isAuthRoute = AUTH_ROUTES.includes(pathname);
 
-  const cookie = request.cookies.get("__session")?.value;
-
-  if (!cookie && isProtected) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    url.searchParams.set("redirect", pathname);
-    return NextResponse.redirect(url);
-  }
-
-  if (cookie && isAuthRoute) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/dashboard";
-    url.search = "";
-    return NextResponse.redirect(url);
-  }
+  // No cookie auth needed — Firebase auth is client-side
+  // Protected routes are handled by client-side auth state
 
   // Security headers
   response.headers.set("X-Frame-Options", "DENY");
