@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "@/lib/firebase";
+import { auth } from "@/lib/firebase";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -29,21 +28,7 @@ export function RegisterForm() {
     }
 
     try {
-      const { user } = await createUserWithEmailAndPassword(auth, email, password);
-      
-      await setDoc(doc(db, "users", user.uid), {
-        nickname,
-        email,
-        birth_date: birthDate || null,
-        role: "user",
-        loyalty_level: "rookie",
-        hours_3m: 0,
-        total_hours: 0,
-        balance: 0,
-        bonus_balance: 0,
-        created_at: new Date().toISOString(),
-      });
-
+      await createUserWithEmailAndPassword(auth, email, password);
       window.location.href = "/dashboard";
     } catch (e: unknown) {
       const err = e as { code?: string; message?: string };
