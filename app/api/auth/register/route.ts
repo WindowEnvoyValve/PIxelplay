@@ -1,9 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createClient();
     const body = await request.json();
     const { email, password, nickname, birth_date } = body;
 
@@ -15,23 +13,31 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Пароль минимум 6 символов" }, { status: 400 });
     }
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          nickname,
-          birth_date: birth_date || null,
-        },
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+    const res = await fetch(`${supabaseUrl}/auth/v1/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": supabaseKey,
+        "Authorization": `Bearer ${supabaseKey}`,
       },
+      body: JSON.stringify({
+        email,
+        password,
+        data: { nickname, birth_date: birth_date || null },
+      }),
     });
 
-    if (error) {
-      console.error("Supabase signUp error:", error.message);
-      return NextResponse.json({ error: error.message }, { status: 400 });
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.error("Supabase signUp error:", data);
+      return NextResponse.json({ error: data.message || "Ошибка регистрации" }, { status: 400 });
     }
 
-    return NextResponse.json({ success: true, user: data.user });
+    return NextResponse.json({ success: true, user: data });
   } catch (err) {
     console.error("Register error:", err);
     return NextResponse.json(
