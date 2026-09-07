@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -26,28 +29,30 @@ export function RegisterForm() {
     }
 
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, nickname, birth_date: birthDate || null }),
+      const { user } = await createUserWithEmailAndPassword(auth, email, password);
+      
+      await setDoc(doc(db, "users", user.uid), {
+        nickname,
+        email,
+        birth_date: birthDate || null,
+        role: "user",
+        loyalty_level: "rookie",
+        hours_3m: 0,
+        total_hours: 0,
+        balance: 0,
+        bonus_balance: 0,
+        created_at: new Date().toISOString(),
       });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(
-          data.error?.includes("already")
-            ? "Аккаунт с таким email уже существует"
-            : data.error || "Не удалось создать аккаунт"
-        );
-        setLoading(false);
-        return;
-      }
 
       router.push("/dashboard");
       router.refresh();
-    } catch (e) {
-      setError("Ошибка сети. Попробуйте позже.");
+    } catch (e: unknown) {
+      const err = e as { code?: string; message?: string };
+      setError(
+        err.code?.includes("already")
+          ? "Аккаунт с таким email уже существует"
+          : err.message || "Не удалось создать аккаунт"
+      );
       setLoading(false);
     }
   }

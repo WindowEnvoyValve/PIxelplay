@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { createClient } from "@/lib/supabase/client";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 export function LoginForm() {
   const router = useRouter();
@@ -18,20 +19,19 @@ export function LoginForm() {
     setError(null);
     setLoading(true);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      setError("Неверный email или пароль");
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      router.push("/dashboard");
+      router.refresh();
+    } catch (e: unknown) {
+      const err = e as { code?: string; message?: string };
+      setError(
+        err.code?.includes("invalid")
+          ? "Неверный email или пароль"
+          : err.message || "Ошибка входа"
+      );
       setLoading(false);
-      return;
     }
-
-    router.push("/dashboard");
-    router.refresh();
   }
 
   return (
