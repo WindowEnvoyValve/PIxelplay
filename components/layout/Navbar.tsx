@@ -6,6 +6,9 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Logo } from "@/components/ui/Logo";
 import { useUIStore } from "@/store/ui-store";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { AuthModal } from "@/components/auth/AuthModal";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 
 const NAV_ITEMS = [
   { href: "/clubs", label: "Локации" },
@@ -33,6 +36,8 @@ function isActive(pathname: string, href: string) {
 
 export function Navbar() {
   const pathname = usePathname();
+  const { user } = useAuth();
+  const [authOpen, setAuthOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { mobileMenuOpen, toggleMobileMenu, closeMobileMenu } = useUIStore();
 
@@ -48,7 +53,8 @@ export function Navbar() {
   }, [pathname, closeMobileMenu]);
 
   return (
-    <header
+    <>
+      <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled ? "bg-void/85 backdrop-blur-md border-b border-brand/15 py-3" : "bg-transparent py-5"
       }`}
@@ -106,9 +112,21 @@ export function Navbar() {
               </a>
             ))}
           </div>
-          <Link href="/login" className="cyber-button !px-5 !py-2.5">
-            Войти
-          </Link>
+            {user ? (
+              <div className="flex items-center gap-3">
+                <Link href="/dashboard" className="cyber-button !px-5 !py-2.5">
+                  Кабинет
+                </Link>
+                <LogoutButton />
+              </div>
+            ) : (
+              <button
+                onClick={() => setAuthOpen(true)}
+                className="cyber-button !px-5 !py-2.5"
+              >
+                Войти
+              </button>
+            )}
         </div>
 
         <button
@@ -244,6 +262,8 @@ export function Navbar() {
           </motion.nav>
         )}
       </AnimatePresence>
-    </header>
+      </header>
+      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
+    </>
   );
 }

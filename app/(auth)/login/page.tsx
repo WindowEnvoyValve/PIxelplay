@@ -4,14 +4,18 @@ export const metadata = { title: "Вход — PIXEL Cyberclub" };
 
 export default function LoginPage() {
   return (
-    <>
-      <h1 className="mb-2 text-center font-display text-xl font-bold tracking-widest text-white">
-        ВХОД В АККАУНТ
-      </h1>
-      <p className="mb-8 text-center text-sm text-white/40">
-        Твой прогресс LETS PLAY ждёт тебя
-      </p>
-      <LoginForm />
-    </>
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="w-full max-w-md space-y-8 rounded-lg border border-brand/20 bg-black/40 p-8 backdrop-blur-sm">
+        <div className="text-center">
+          <h1 className="mb-2 font-display text-2xl font-bold tracking-widest text-white">
+            ВХОД В АККАУНТ
+          </h1>
+          <p className="text-sm text-white/40">
+            Твой прогресс LETS PLAY ждёт тебя
+          </p>
+        </div>
+        <LoginForm />
+      </div>
+    </div>
   );
 }
