@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getDb, getUserFromRequest, type Tournament } from "@/lib/firebase-admin";
+import { getDb, type Tournament } from "@/lib/firebase-admin";
 
 export async function GET() {
   try {
