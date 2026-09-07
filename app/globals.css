@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+@theme {
+  --color-void: #0a0a0a;
+  --color-panel: #111111;
+  --color-panel-light: #1a1a1a;
+
+  /* Фирменные цвета PIXEL: белый и оранжевый */
+  --color-brand: #ff6a00;
+  --color-brand-light: #ff9040;
+  --color-brand-dark: #cc5500;
+
+  --font-display: var(--font-orbitron), sans-serif;
+  --font-sans: var(--font-chakra), system-ui, sans-serif;
+
+  --animate-glow-pulse: glow-pulse 2.5s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.8s linear infinite;
+  --animate-scanline: scanline 8s linear infinite;
+  --animate-spin-slow: spin 14s linear infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float-text {
+  0%, 100% { transform: translateY(0) rotateX(0deg); }
+  25% { transform: translateY(-4px) rotateX(3deg); }
+  75% { transform: translateY(2px) rotateX(-2deg); }
+}
+
+@keyframes shadow-pulse {
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) scaleX(1); }
+  25% { opacity: 0.8; transform: translateX(-50%) scaleX(1.1); }
+  75% { opacity: 0.3; transform: translateX(-50%) scaleX(0.9); }
+}
+
+@keyframes float-3d {
+  0%, 100% { transform: rotateX(10deg) rotateY(-5deg) translateY(0); }
+  50% { transform: rotateX(10deg) rotateY(-5deg) translateY(-6px); }
+}
+
+body {
+  background-color: var(--color-void);
+  color: #f5f5f5;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+/* ---------- Сетка фона ---------- */
+.cyber-grid {
+  background-image:
+    linear-gradient(rgba(255, 106, 0, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 106, 0, 0.18) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 75%);
+}
+
+/* ---------- Панель со срезанными углами ---------- */
+.cyber-panel {
+  position: relative;
+  background: color-mix(in srgb, var(--color-panel) 90%, transparent);
+  border: 2px solid rgba(255, 106, 0, 0.5);
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  backdrop-filter: blur(8px);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cyber-panel:hover {
+  border-color: rgba(255, 106, 0, 0.8);
+  box-shadow: 0 0 40px rgba(255, 106, 0, 0.2);
+}
+
+.cyber-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-brand), transparent);
+}
+
+/* ---------- Кнопка ---------- */
+.cyber-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.75rem;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #fff;
+  background: rgba(255, 106, 0, 0.3);
+  border: 2px solid rgba(255, 106, 0, 0.85);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  transition: all 0.25s ease;
+  overflow: hidden;
+  cursor: pointer;
+  text-shadow: 0 0 8px rgba(255, 106, 0, 0.5);
+  box-shadow: 0 0 12px rgba(255, 106, 0, 0.2);
+}
+
+/* Блик, пробегающий по кнопке */
+.cyber-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: shimmer 3.2s linear infinite;
+  pointer-events: none;
+}
+
+.cyber-button:hover:not(:disabled) {
+  background: var(--color-brand);
+  color: #fff;
+  border-color: var(--color-brand-light);
+  box-shadow: 0 0 32px rgba(255, 106, 0, 0.6), inset 0 0 16px rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.cyber-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.cyber-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Инпут ---------- */
+.cyber-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 106, 0, 0.08);
+  border: 2px solid rgba(255, 106, 0, 0.6);
+  border-left: 3px solid rgba(255, 106, 0, 0.9);
+  color: #f5f5f5;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cyber-input:focus {
+  border-color: rgba(255, 106, 0, 1);
+  box-shadow: 0 0 20px rgba(255, 106, 0, 0.3);
+}
+
+.cyber-input::placeholder {
+  color: rgba(255, 106, 0, 0.5);
+}
+
+/* ---------- Градиентный текст с переливом ---------- */
+.text-gradient-brand {
+  background: linear-gradient(90deg, #ff6a00, #ffb066, #ffffff, #ffb066, #ff6a00);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 5s linear infinite;
+}
+
+/* ---------- Скроллбар ---------- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 106, 0, 0.6);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 106, 0, 0.85);
+}
