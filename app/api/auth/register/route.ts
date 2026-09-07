@@ -27,11 +27,13 @@ export async function POST(request: NextRequest) {
     });
 
     if (error) {
+      console.error("Supabase signUp error:", error.message);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
     return NextResponse.json({ success: true, user: data.user });
   } catch (err) {
+    console.error("Register error:", err);
     return NextResponse.json(
       { error: err instanceof Error ? err.message : "Unknown error" },
       { status: 500 }

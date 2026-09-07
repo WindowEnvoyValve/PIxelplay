@@ -27,8 +27,11 @@ export function Chat() {
   const fetchMessages = async () => {
     try {
       const res = await fetch("/api/chat/messages");
+      if (!res.ok) return;
       const data = await res.json();
-      setMessages(data);
+      if (Array.isArray(data)) {
+        setMessages(data);
+      }
     } catch (e) {
       console.error("Failed to fetch messages:", e);
     } finally {
