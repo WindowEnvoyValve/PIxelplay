@@ -43,57 +43,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Слишком длинное сообщение (макс. 500 символов)" }, { status: 400 });
     }
 
-    // Проверка бана (используем any пока типы не обновлены)
-    const supabaseAny = supabase as any;
-    const { data: isBanned } = await supabaseAny.rpc("is_chat_banned", { p_user_id: user.id });
-    if (isBanned) {
-      return NextResponse.json({ error: "Вы заблокированы в чате" }, { status: 403 });
-    }
-
-    // Проверка на мат
-    if (containsProfanity(content)) {
-      const { data: warnings } = await supabaseAny
-        .from("chat_warnings")
-        .select("*")
-        .eq("user_id", user.id)
-        .gte("created_at", new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString());
-
-      if (warnings && warnings.length >= 2) {
-        await supabaseAny.from("chat_bans").upsert({
-          user_id: user.id,
-          banned_by: user.id,
-          reason: "Множественные нарушения (мат)",
-          expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        });
-        return NextResponse.json({ error: "Заблокированы в чате на 24 часа" }, { status: 403 });
-      }
-
-      await supabaseAny.from("chat_warnings").insert({ user_id: user.id });
-      return NextResponse.json({ error: "Предупреждение: запрещено использовать ненормативную лексику" }, { status: 400 });
-    }
-
-    // Проверка спама
-    const { data: recent } = await supabaseAny
+    const { error } = await supabase
       .from("chat_messages")
-      .select("id")
-      .eq("user_id", user.id)
-      .gte("created_at", new Date(Date.now() - 2000).toISOString())
-      .limit(1);
-
-    if (recent && recent.length > 0) {
-      return NextResponse.json({ error: "Слишком быстро! Подождите 2 секунды" }, { status: 429 });
-    }
-
-    // Создание сообщения
-    const { data, error } = await supabaseAny
-      .from("chat_messages")
-      .insert({ user_id: user.id, content })
-      .select("*, profiles(nickname, role, user_prefixes(prefix, color))")
-      .single();
+      .insert({ user_id: user.id, content });
 
     if (error) throw error;
 
-    return NextResponse.json(data);
+    return NextResponse.json({ success: true });
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : "Unknown error" }, { status: 500 });
   }
@@ -113,10 +69,9 @@ export async function GET() {
       }
     );
 
-    const supabaseAny = supabase as any;
-    const { data, error } = await supabaseAny
+    const { data, error } = await supabase
       .from("chat_messages")
-      .select("*, profiles(nickname, role, user_prefixes(prefix, color))")
+      .select("*, profiles(nickname)")
       .eq("is_deleted", false)
       .order("created_at", { ascending: true })
       .limit(100);

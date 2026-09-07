@@ -59,19 +59,16 @@ export function Chat() {
       const res = await fetch("/api/chat/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: input.trim() }),
+        body: JSON.stringify({ content: input }),
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Ошибка отправки");
+      if (res.ok) {
         setInput("");
-        return;
+        fetchMessages();
+      } else {
+        const data = await res.json();
+        alert(data.error || "Ошибка отправки");
       }
-
-      setMessages(prev => [...prev, data]);
-      setInput("");
     } catch (err) {
       setError("Не удалось отправить сообщение");
     } finally {
