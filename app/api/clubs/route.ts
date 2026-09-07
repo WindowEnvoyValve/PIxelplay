@@ -5,11 +5,12 @@ export async function GET() {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("clubs")
-    .select("id, slug, name, address, status, is_active")
+    .select("*")
     .eq("is_active", true)
     .order("id");
 
   if (error) {
+    console.error("Clubs error:", error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
