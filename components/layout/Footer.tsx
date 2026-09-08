@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
-import { DEMO_CLUBS } from "@/lib/mock-data";
+import { CLUBS } from "@/lib/site-data";
 
 export function Footer() {
   return (
@@ -16,7 +16,7 @@ export function Footer() {
         <div>
           <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-brand">Клубы</h4>
           <ul className="space-y-2.5 text-sm text-white/50">
-            {DEMO_CLUBS.map((club) => (
+            {CLUBS.map((club) => (
               <li key={club.slug}>
                 <Link href="/clubs" className="transition-colors hover:text-white">
                   {club.name} — {club.address}

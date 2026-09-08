@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
-import { DEMO_CLUBS } from "@/lib/mock-data";
+import { CLUBS, totalPcCount } from "@/lib/site-data";
 
 export default function HomePage() {
   return (
@@ -49,7 +49,7 @@ export default function HomePage() {
 
         {/* Карточки клубов */}
         <motion.div variants={staggerItem} className="mx-auto w-full max-w-5xl grid gap-4 md:grid-cols-3">
-          {DEMO_CLUBS.map((club, i) => (
+          {CLUBS.map((club, i) => (
             <motion.div key={club.slug} className="cyber-panel flex flex-col p-5 text-left" {...cardHover} custom={i}>
               <div className="flex items-center justify-between">
                 <span className="font-display text-sm font-bold uppercase tracking-widest text-white">
@@ -62,11 +62,11 @@ export default function HomePage() {
               </div>
               <p className="mt-1 text-xs text-white/35">{club.address}</p>
               <p className="mt-3 font-display text-2xl font-bold text-brand">
-                от 5 <span className="text-sm font-medium text-white/50">руб/час</span>
+                от {Math.min(...club.zones.map((z) => z.pricePerHour))} <span className="text-sm font-medium text-white/50">руб/час</span>
               </p>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 <span className="border border-white/10 px-2 py-1 text-[10px] uppercase tracking-wider text-white/60">
-                  {club.pcs.length} ПК
+                  {totalPcCount(club)} ПК
                 </span>
                 {club.features.map((f) => (
                   <span key={f} className="border border-white/10 px-2 py-1 text-[10px] uppercase tracking-wider text-white/60">

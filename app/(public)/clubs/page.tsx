@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { DEMO_CLUBS } from "@/lib/mock-data";
+import { CLUBS } from "@/lib/site-data";
 import { fadeUp, staggerItem } from "@/lib/animations";
 
 const CLUB_IMAGES: Record<string, string> = {
@@ -31,13 +31,14 @@ const ZONE_PRICE_MAP: Record<string, number> = {
 };
 
 export default function ClubsPage() {
-  const [activeSlug, setActiveSlug] = useState(DEMO_CLUBS[0].slug);
+  const [activeSlug, setActiveSlug] = useState(CLUBS[0].slug);
   const [activeZone, setActiveZone] = useState<string>("STANDART");
-  const active = DEMO_CLUBS.find((c) => c.slug === activeSlug)!;
+  const active = CLUBS.find((c) => c.slug === activeSlug)!;
 
-  const zonePcs = active.pcs;
-  const samplePc = zonePcs[0];
-  const zonePrice = ZONE_PRICE_MAP[activeZone] ?? 5;
+  const activeZoneData = active.zones.find((z) => z.name === activeZone) ?? active.zones[0];
+  const zonePrice = activeZoneData.pricePerHour;
+  const samplePc = activeZoneData.specs;
+  const zonePcCount = activeZoneData.pcCount;
 
   return (
     <main className="relative overflow-hidden">
@@ -67,7 +68,7 @@ export default function ClubsPage() {
 
       {/* Выбор клуба */}
       <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-10 grid gap-4 md:grid-cols-3">
-        {DEMO_CLUBS.map((club, i) => {
+        {CLUBS.map((club, i) => {
           const isActive = club.slug === activeSlug;
           return (
             <motion.button
@@ -107,7 +108,7 @@ export default function ClubsPage() {
                 </div>
               </div>
               <div className="mt-4 flex items-center justify-between border-t border-white/5 pt-3">
-                <span className="text-xs text-white/40">{club.pcs.length} ПК в зале</span>
+                <span className="text-xs text-white/40">{club.zones.reduce((sum, z) => sum + z.pcCount, 0)} ПК в зале</span>
               </div>
             </motion.button>
           );
@@ -141,15 +142,15 @@ export default function ClubsPage() {
         <div className="mb-6 flex flex-wrap items-center gap-2">
           {active.zones.map((zone) => (
             <button
-              key={zone}
-              onClick={() => setActiveZone(zone)}
+              key={zone.name}
+              onClick={() => setActiveZone(zone.name)}
               className={`px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] transition-all ${
-                activeZone === zone
+                activeZone === zone.name
                   ? "bg-brand text-white shadow-[0_0_16px_rgba(255,106,0,0.4)]"
                   : "border border-white/10 text-white/50 hover:border-brand/50 hover:text-white"
               }`}
             >
-              {zone}
+              {zone.name}
             </button>
           ))}
         </div>
@@ -176,18 +177,18 @@ export default function ClubsPage() {
 
               {/* Девайсы */}
               <div className="grid flex-1 grid-cols-2 gap-x-6 gap-y-1.5 text-sm md:grid-cols-3">
-                <SpecRow label="Видеокарта" value={samplePc.specs.gpu} />
-                <SpecRow label="Процессор" value={samplePc.specs.cpu} />
-                <SpecRow label="Монитор" value={`${samplePc.specs.monitor} · ${samplePc.specs.refresh}Hz`} />
-                <SpecRow label="Кресло" value={samplePc.specs.chair} />
-                <SpecRow label="Мышь" value={samplePc.specs.mouse} />
-                <SpecRow label="Клавиатура" value={samplePc.specs.keyboard} />
+                <SpecRow label="Видеокарта" value={samplePc.gpu} />
+                <SpecRow label="Процессор" value={samplePc.cpu} />
+                <SpecRow label="Монитор" value={`${samplePc.monitor} · ${samplePc.refresh}Hz`} />
+                <SpecRow label="Кресло" value={samplePc.chair} />
+                <SpecRow label="Мышь" value={samplePc.mouse} />
+                <SpecRow label="Клавиатура" value={samplePc.keyboard} />
               </div>
 
-              {/* Цена и бронь */}
+              {/* Цена */}
               <div className="text-right">
                 <p className="font-display text-2xl font-bold text-brand">{zonePrice} руб</p>
-                <p className="text-xs text-white/40">за час</p>
+                <p className="text-xs text-white/40">за час · {zonePcCount} ПК</p>
                 <a
                   href="https://t.me/pixelplay_mogilev"
                   target="_blank"
@@ -205,7 +206,7 @@ export default function ClubsPage() {
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           {active.zones.slice(0, 3).map((zone, i) => (
             <motion.div
-              key={zone}
+              key={zone.name}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -213,8 +214,8 @@ export default function ClubsPage() {
               className="cyber-panel p-5"
             >
               <div className="flex items-center justify-between">
-                <h4 className="font-display font-bold tracking-widest text-white">{zone}</h4>
-                <p className="font-display text-xl font-bold text-brand">{ZONE_PRICE_MAP[zone] ?? 5} руб<span className="text-xs text-white/40">/час</span></p>
+                <h4 className="font-display font-bold tracking-widest text-white">{zone.name}</h4>
+                <p className="font-display text-xl font-bold text-brand">{ZONE_PRICE_MAP[zone.name] ?? zone.pricePerHour} руб<span className="text-xs text-white/40">/час</span></p>
               </div>
             </motion.div>
           ))}
