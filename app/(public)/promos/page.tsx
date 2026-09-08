@@ -55,7 +55,7 @@ export default function PromosPage() {
               />
               <div className="flex flex-col items-center gap-3">
                 <a
-                  href="https://langame.by"
+                  href="https://langame.ru/app"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cyber-button whitespace-nowrap text-center"
