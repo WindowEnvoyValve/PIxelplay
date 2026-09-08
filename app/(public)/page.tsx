@@ -22,7 +22,7 @@ export default function HomePage() {
         aria-hidden="true"
         className="fixed inset-0 -z-10 h-full w-full object-cover opacity-70"
       >
-        <source src="/hero.mp4" type="video/mp4" />
+        <source src="/hero-desktop.mp4" type="video/mp4" media="(min-width: 768px)" />
       </video>
       <div className="fixed inset-0 -z-10 bg-gradient-to-b from-void/30 via-void/25 to-void" aria-hidden />
 

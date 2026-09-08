@@ -19,19 +19,12 @@ export default function ClubsPage() {
 
   return (
     <main className="relative overflow-hidden">
-      {/* Видео-фон */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster="/club-play.jpg"
+      {/* Статичный фон: каталог клубов не загружает декоративное видео. */}
+      <div
+        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat opacity-70"
+        style={{ backgroundImage: "url('/club-play.jpg')" }}
         aria-hidden="true"
-        className="fixed inset-0 -z-10 h-full w-full object-cover opacity-70"
-      >
-        <source src="/hero.mp4" type="video/mp4" />
-      </video>
+      />
       <div className="fixed inset-0 -z-10 bg-gradient-to-b from-void/30 via-void/25 to-void" aria-hidden />
 
       <div className="mx-auto max-w-7xl px-6 pb-24 pt-32 md:px-10">
