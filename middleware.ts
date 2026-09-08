@@ -1,17 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-const PROTECTED_PREFIXES = ["/dashboard", "/admin"];
-const AUTH_ROUTES = ["/login", "/register"];
-
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next({ request });
-
-  const { pathname } = request.nextUrl;
-  const isProtected = PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
-  const isAuthRoute = AUTH_ROUTES.includes(pathname);
-
-  // No cookie auth needed — Firebase auth is client-side
-  // Protected routes are handled by client-side auth state
 
   // Security headers
   response.headers.set("X-Frame-Options", "DENY");
@@ -23,7 +13,7 @@ export async function middleware(request: NextRequest) {
   );
   response.headers.set(
     "Content-Security-Policy",
-    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.firebaseio.com https://*.firebase.com https://*.googleapis.com https://*.steamstatic.com https://*.akamaihd.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
   );
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");

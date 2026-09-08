@@ -2,16 +2,10 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
 import { DEMO_CLUBS } from "@/lib/mock-data";
-import { useClubStatuses, statusOf, STATUS_META } from "@/lib/club-status";
-import { BookingModal } from "@/components/booking/BookingModal";
 
 export default function HomePage() {
-  const statusClubs = useClubStatuses();
-  const [bookingOpen, setBookingOpen] = useState(false);
-
   return (
     <main className="relative overflow-hidden">
       {/* Видео-фон */}
@@ -61,15 +55,10 @@ export default function HomePage() {
                 <span className="font-display text-sm font-bold uppercase tracking-widest text-white">
                   {club.name}
                 </span>
-                {(() => {
-                  const meta = STATUS_META[statusOf(statusClubs, club.slug)];
-                  return (
-                    <span className={`flex items-center gap-1.5 text-xs font-semibold ${meta.className}`}>
-                      <span className={`h-1.5 w-1.5 animate-glow-pulse rounded-full ${meta.dot}`} />
-                      {meta.label}
-                    </span>
-                  );
-                })()}
+                <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
+                  <span className="h-1.5 w-1.5 animate-glow-pulse rounded-full bg-emerald-400" />
+                  Открыто
+                </span>
               </div>
               <p className="mt-1 text-xs text-white/35">{club.address}</p>
               <p className="mt-3 font-display text-2xl font-bold text-brand">
@@ -109,16 +98,21 @@ export default function HomePage() {
 
         {/* Кнопки */}
         <motion.div variants={staggerItem} className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <Link href="/register" className="cyber-button">
+          <a
+            href="https://t.me/pixelplay_mogilev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cyber-button"
+          >
             Начать играть
-          </Link>
+          </a>
           <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-            <button
-              onClick={() => setBookingOpen(true)}
+            <Link
+              href="/clubs"
               className="inline-block rounded-md border-2 border-brand bg-brand/15 px-7 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-[0_0_16px_rgba(255,106,0,0.25)] transition-all hover:border-brand hover:bg-brand hover:text-white hover:shadow-[0_0_28px_rgba(255,106,0,0.5)]"
             >
-              Забронировать
-            </button>
+              Выбрать клуб
+            </Link>
           </motion.div>
         </motion.div>
 
@@ -155,9 +149,6 @@ export default function HomePage() {
           ))}
         </motion.div>
       </motion.section>
-
-      {/* Модальное окно бронирования */}
-      <BookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} />
     </main>
   );
 }

@@ -30,9 +30,9 @@ export function Footer() {
           <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-brand">Навигация</h4>
           <ul className="space-y-2.5 text-sm text-white/50">
             <li><Link href="/specs" className="transition-colors hover:text-white">Железо и цены</Link></li>
-            <li><Link href="/tournaments" className="transition-colors hover:text-white">Турниры</Link></li>
-            <li><Link href="/dashboard" className="transition-colors hover:text-white">Личный кабинет</Link></li>
-            <li><Link href="/register" className="transition-colors hover:text-white">Регистрация</Link></li>
+            <li><Link href="/promos" className="transition-colors hover:text-white">Акции</Link></li>
+            <li><Link href="/partners" className="transition-colors hover:text-white">Партнерам</Link></li>
+            <li><Link href="/rules" className="transition-colors hover:text-white">Правила</Link></li>
           </ul>
         </div>
 

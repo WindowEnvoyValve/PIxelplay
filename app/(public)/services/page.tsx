@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
-import { openSupport } from "@/components/support/SupportWidget";
 
 const SERVICES = [
   {
@@ -89,14 +88,14 @@ export default function ServicesPage() {
                 </li>
               ))}
             </ul>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => openSupport(s.topic)}
+            <a
+              href="https://t.me/pixelplay_mogilev"
+              target="_blank"
+              rel="noopener noreferrer"
               className="cyber-button mt-8 w-full"
             >
               Узнать подробнее
-            </motion.button>
+            </a>
           </motion.div>
         ))}
       </motion.div>

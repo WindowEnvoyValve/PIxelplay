@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Orbitron, Exo_2 } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/components/auth/AuthProvider";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -18,7 +17,7 @@ const exo = Exo_2({
 export const metadata: Metadata = {
   title: "PIXEL — Сеть киберклубов",
   description:
-    "Премиальные киберклубы PIXEL: RTX 40/50, 240Hz, кресла Brave/Lorgar. Бронируй место, копи бонусы LETS PLAY, участвуй в турнирах.",
+    "Премиальные киберклубы PIXEL: RTX 40/50, 240Hz, кресла Brave/Lorgar. Играй на максимуме.",
   icons: {
     icon: "/favicon.png",
   },
@@ -29,11 +28,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ru" className={`${orbitron.variable} ${exo.variable}`}>
-      <body>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

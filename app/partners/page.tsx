@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "@/components/ui/Logo";
-import { useAuthStore } from "@/store/auth-store";
 
 const SOCIALS = [
   {
@@ -369,7 +368,6 @@ const brandVariant = {
 };
 
 export default function PartnersPage() {
-  const { profile } = useAuthStore();
   const [activeTab, setActiveTab] = useState("partners");
   const [filter, setFilter] = useState("Все");
   const [showModal, setShowModal] = useState(false);
@@ -442,15 +440,14 @@ export default function PartnersPage() {
                 </a>
               ))}
             </div>
-            {profile ? (
-              <Link href="/dashboard" className="cyber-button !px-5 !py-2">
-                Кабинет
-              </Link>
-            ) : (
-              <Link href="/login" className="cyber-button !px-5 !py-2">
-                Войти
-              </Link>
-            )}
+            <a
+              href="https://t.me/pixelplay_mogilev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cyber-button !px-5 !py-2"
+            >
+              Связаться
+            </a>
           </div>
         </div>
       </header>

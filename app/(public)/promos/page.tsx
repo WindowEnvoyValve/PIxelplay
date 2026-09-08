@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
-import { openSupport } from "@/components/support/SupportWidget";
 
 export default function PromosPage() {
   return (
@@ -128,14 +127,14 @@ export default function PromosPage() {
               </li>
             ))}
           </ul>
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => openSupport("Здравствуйте! Хочу получить 10 бонусов за полную регистрацию.")}
+          <a
+            href="https://t.me/pixelplay_mogilev"
+            target="_blank"
+            rel="noopener noreferrer"
             className="cyber-button mt-6 w-full"
           >
             Зарегистрироваться
-          </motion.button>
+          </a>
         </motion.div>
 
         {/* Ночные катки */}

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { DEMO_CLUBS } from "@/lib/mock-data";
 import { fadeUp, staggerItem } from "@/lib/animations";
-import { useClubStatuses, statusOf, STATUS_META } from "@/lib/club-status";
 
 const CLUB_IMAGES: Record<string, string> = {
   play: "/club-play.jpg",
@@ -35,7 +34,6 @@ export default function ClubsPage() {
   const [activeSlug, setActiveSlug] = useState(DEMO_CLUBS[0].slug);
   const [activeZone, setActiveZone] = useState<string>("STANDART");
   const active = DEMO_CLUBS.find((c) => c.slug === activeSlug)!;
-  const statusClubs = useClubStatuses();
 
   const zonePcs = active.pcs;
   const samplePc = zonePcs[0];
@@ -71,7 +69,6 @@ export default function ClubsPage() {
       <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-10 grid gap-4 md:grid-cols-3">
         {DEMO_CLUBS.map((club, i) => {
           const isActive = club.slug === activeSlug;
-          const meta = STATUS_META[statusOf(statusClubs, club.slug)];
           return (
             <motion.button
               key={club.slug}
@@ -103,9 +100,9 @@ export default function ClubsPage() {
                   {isActive && (
                     <motion.span layoutId="club-active" className="h-2 w-2 rounded-full bg-brand shadow-[0_0_10px_rgba(255,106,0,0.8)]" />
                   )}
-                  <span className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${meta.className}`}>
-                    <span className={`h-1.5 w-1.5 animate-glow-pulse rounded-full ${meta.dot}`} />
-                    {meta.label}
+                  <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+                    <span className="h-1.5 w-1.5 animate-glow-pulse rounded-full bg-emerald-400" />
+                    Открыто
                   </span>
                 </div>
               </div>
@@ -191,7 +188,12 @@ export default function ClubsPage() {
               <div className="text-right">
                 <p className="font-display text-2xl font-bold text-brand">{zonePrice} руб</p>
                 <p className="text-xs text-white/40">за час</p>
-                <a href="/dashboard/booking" className="cyber-button mt-3 !px-5 !py-2 text-[10px]">
+                <a
+                  href="https://t.me/pixelplay_mogilev"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cyber-button mt-3 !px-5 !py-2 text-[10px]"
+                >
                   Забронировать
                 </a>
               </div>

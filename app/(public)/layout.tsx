@@ -1,6 +1,5 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { SupportWidget } from "@/components/support/SupportWidget";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -30,7 +29,6 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <Navbar />
       <div className="relative flex-1">{children}</div>
       <Footer />
-      <SupportWidget />
     </div>
   );
 }
