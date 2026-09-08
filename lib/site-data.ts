@@ -61,6 +61,8 @@ const VIP_DESCRIPTION =
   "Максимум удобства и атмосферы для тех, кто ценит приватность и высокий уровень комфорта. Подходит для долгих сессий, важных каток, дней рождения и «сделайте красиво».";
 const DUO_DESCRIPTION =
   "Зал для двоих: играете рядом, общаетесь, собираете командные связки и кайфуете вместе. Лучший выбор для пары, друзей или постоянного тиммейта.";
+const METRO_VIP_DESCRIPTION =
+  "VIP-формат — это максимум свободы и комфорта для вас и ваших близких. Никаких лишних глаз, только ваша команда, живое общение и полное погружение в игру. Идеально подходит для пары, проверенных тиммейтов или шумной компании друзей, которые ценят качественный отдых.";
 
 export const CLUBS: Club[] = [
   {
@@ -82,11 +84,11 @@ export const CLUBS: Club[] = [
         pricePerHour: 5,
         pcCount: 15,
         specs: {
-          cpu: "Intel i7-14700K",
-          gpu: "RTX 4070 Super",
+          cpu: "Intel Core i5-10400F",
+          gpu: "GeForce 1660 SUPER",
           ram: "16 GB",
-          monitor: "ZOWIE XL2586X",
-          refreshRate: 360,
+          monitor: '24"',
+          refreshRate: 144,
           chair: "Brave Pro X",
           mouse: "Razer Viper V3 Pro",
           keyboard: "Logitech G Pro X TKL",
@@ -99,11 +101,11 @@ export const CLUBS: Club[] = [
         pricePerHour: 6,
         pcCount: 10,
         specs: {
-          cpu: "Intel i7-14700K",
-          gpu: "RTX 4070 Super",
+          cpu: "Intel Core i5-12400F",
+          gpu: "GeForce RTX 4060",
           ram: "32 GB",
-          monitor: "ZOWIE XL2586X",
-          refreshRate: 360,
+          monitor: '27"',
+          refreshRate: 165,
           chair: "Brave Pro X",
           mouse: "Razer Viper V3 Pro",
           keyboard: "Logitech G Pro X TKL",
@@ -116,11 +118,11 @@ export const CLUBS: Club[] = [
         pricePerHour: 7,
         pcCount: 8,
         specs: {
-          cpu: "Intel i7-14700K",
-          gpu: "RTX 5080 16GB",
+          cpu: "Intel Core i5-12400F",
+          gpu: "GeForce RTX 4070",
           ram: "32 GB",
-          monitor: "ZOWIE XL2586X",
-          refreshRate: 360,
+          monitor: '27"',
+          refreshRate: 240,
           chair: "Brave Pro X",
           mouse: "Razer Viper V3 Pro",
           keyboard: "Logitech G Pro X TKL",
@@ -133,11 +135,11 @@ export const CLUBS: Club[] = [
         pricePerHour: 7,
         pcCount: 4,
         specs: {
-          cpu: "Intel i7-14700K",
-          gpu: "RTX 5080 16GB",
+          cpu: "Intel Core i5-12400F",
+          gpu: "GeForce RTX 4070",
           ram: "32 GB",
-          monitor: "ZOWIE XL2586X",
-          refreshRate: 360,
+          monitor: '27"',
+          refreshRate: 240,
           chair: "Brave Pro X",
           mouse: "Razer Viper V3 Pro",
           keyboard: "Logitech G Pro X TKL",
@@ -150,11 +152,11 @@ export const CLUBS: Club[] = [
         pricePerHour: 8,
         pcCount: 2,
         specs: {
-          cpu: "AMD Ryzen 7 7800X3D",
-          gpu: "RTX 5070 Ti",
+          cpu: "AMD Ryzen 5 9600X",
+          gpu: "GeForce RTX 5070",
           ram: "64 GB",
-          monitor: "ZOWIE XL2586X",
-          refreshRate: 360,
+          monitor: '27"',
+          refreshRate: 300,
           chair: "Lorgar Ranger 743",
           mouse: "Logitech G Pro X Superlight 2",
           keyboard: "Wooting 60HE",
@@ -181,11 +183,11 @@ export const CLUBS: Club[] = [
         pricePerHour: 5,
         pcCount: 12,
         specs: {
-          cpu: "Intel i7-14700K",
-          gpu: "RTX 4070 Super",
+          cpu: "Intel Core i5-10400F",
+          gpu: "GeForce 1660 SUPER",
           ram: "16 GB",
-          monitor: "ZOWIE XL2586X",
-          refreshRate: 240,
+          monitor: '24"',
+          refreshRate: 144,
           chair: "Brave Pro X",
           mouse: "Razer Viper V3 Pro",
           keyboard: "Logitech G Pro X TKL",
@@ -198,11 +200,11 @@ export const CLUBS: Club[] = [
         pricePerHour: 6,
         pcCount: 10,
         specs: {
-          cpu: "Intel i5-14400F",
-          gpu: "RTX 4070 Super",
+          cpu: "Intel Core i5-12400F",
+          gpu: "GeForce RTX 4060",
           ram: "32 GB",
-          monitor: "ZOWIE XL2586X",
-          refreshRate: 240,
+          monitor: '27"',
+          refreshRate: 165,
           chair: "Brave Pro X",
           mouse: "Razer Viper V3 Pro",
           keyboard: "Logitech G Pro X TKL",
@@ -215,10 +217,10 @@ export const CLUBS: Club[] = [
         pricePerHour: 7,
         pcCount: 7,
         specs: {
-          cpu: "Intel i7-14700K",
-          gpu: "RTX 4070 Super",
+          cpu: "Intel Core i5-12400F",
+          gpu: "GeForce RTX 4070",
           ram: "32 GB",
-          monitor: "ZOWIE XL2586X",
+          monitor: '27"',
           refreshRate: 240,
           chair: "Brave Pro X",
           mouse: "Razer Viper V3 Pro",
@@ -232,10 +234,10 @@ export const CLUBS: Club[] = [
         pricePerHour: 7,
         pcCount: 4,
         specs: {
-          cpu: "Intel i7-14700K",
-          gpu: "RTX 4070 Super",
+          cpu: "Intel Core i5-12400F",
+          gpu: "GeForce RTX 4070",
           ram: "32 GB",
-          monitor: "ZOWIE XL2586X",
+          monitor: '27"',
           refreshRate: 240,
           chair: "Brave Pro X",
           mouse: "Razer Viper V3 Pro",
@@ -263,7 +265,7 @@ export const CLUBS: Club[] = [
         pricePerHour: 5,
         pcCount: 15,
         specs: {
-          cpu: "Intel i5-10400F",
+          cpu: "Intel Core i5-10400F",
           gpu: "GeForce 4060",
           ram: "16 GB",
           monitor: '27" 165Hz',
@@ -310,7 +312,7 @@ export const CLUBS: Club[] = [
       {
         id: "metro-trio",
         name: "TRIO",
-        description: VIP_DESCRIPTION,
+        description: METRO_VIP_DESCRIPTION,
         pricePerHour: 7,
         pcCount: 4,
         specs: {
@@ -327,7 +329,7 @@ export const CLUBS: Club[] = [
       {
         id: "metro-vip",
         name: "VIP",
-        description: VIP_DESCRIPTION,
+        description: METRO_VIP_DESCRIPTION,
         pricePerHour: 7,
         pcCount: 3,
         specs: {
