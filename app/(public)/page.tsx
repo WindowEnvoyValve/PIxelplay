@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
-import { CLUBS, clubStatusLabel, getLowestClubPrice, totalNetworkPcCount, totalPcCount } from "@/lib/site-data";
+import { CLUBS, SITE_STATS, clubStatusLabel, getLowestClubPrice, totalNetworkPcCount, totalPcCount } from "@/lib/site-data";
 
 export default function HomePage() {
   return (
@@ -62,7 +62,7 @@ export default function HomePage() {
               </div>
               <p className="mt-1 text-xs text-white/35">{club.address}</p>
               <p className="mt-3 font-display text-2xl font-bold text-brand">
-                от {getLowestClubPrice(club)} <span className="text-sm font-medium text-white/50">руб/час</span>
+                от {getLowestClubPrice(club)} <span className="text-sm font-medium text-white/50">BYN/час</span>
               </p>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 <span className="border border-white/10 px-2 py-1 text-[10px] uppercase tracking-wider text-white/60">
@@ -139,8 +139,8 @@ export default function HomePage() {
           {[
             { value: `${totalNetworkPcCount(CLUBS)}+`, label: "игровых ПК" },
             { value: `${Math.max(...CLUBS.flatMap((club) => club.zones.map((zone) => zone.specs.refreshRate)))}Hz`, label: "мониторы в VIP" },
-            { value: "25%", label: "кешбэк Legend" },
-            { value: "24/7", label: "ОТКРЫТЫ" },
+            { value: SITE_STATS.cashbackLegend, label: "кешбэк Legend" },
+            { value: SITE_STATS.networkHours, label: "ОТКРЫТЫ" },
           ].map((stat) => (
             <div key={stat.label} className="border-l-2 border-brand/40 py-2 pl-4 text-left">
               <p className="font-display text-3xl font-bold text-white">{stat.value}</p>

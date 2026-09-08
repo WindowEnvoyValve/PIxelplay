@@ -47,7 +47,7 @@ export type PricingTariff = "STANDART" | "STANDART+" | "VIP/TRIO" | "DUO" | "PS5
 export interface PricingRow {
   label: string;
   note?: string;
-  prices: Partial<Record<PricingTariff, number>>;
+  prices?: Partial<Record<PricingTariff, number>>;
   dayPrices?: Partial<Record<Exclude<PricingTariff, "PS5">, number>>;
 }
 
@@ -344,7 +344,7 @@ export const CLUBS: Club[] = [
 ];
 
 export const PRICING_ROWS: PricingRow[] = [
-  { label: "1 час", prices: { STANDART: 5, "STANDART+": 6, "VIP/TRIO": 7, DUO: 8, PS5: 10 } },
+  { label: "1 час", prices: { PS5: 10 } },
   {
     label: "3 часа",
     prices: { STANDART: 13, "STANDART+": 15, "VIP/TRIO": 18, DUO: 25, PS5: 25 },
@@ -370,6 +370,34 @@ export const PRICING_ROWS: PricingRow[] = [
   { label: "Ночь+", note: "20:00–8:00", prices: { STANDART: 20, "STANDART+": 30, "VIP/TRIO": 35, DUO: 50 } },
 ];
 
+export const SITE_STATS = {
+  cashbackLegend: "25%",
+  networkHours: "24/7",
+} as const;
+
+const HOURLY_TARIFF_ZONES: Record<Exclude<PricingTariff, "PS5">, string[]> = {
+  STANDART: ["STANDART", "MID"],
+  "STANDART+": ["STANDART+", "SPACE"],
+  "VIP/TRIO": ["VIP[1]", "VIP[2]", "VIP", "TRIO"],
+  DUO: ["DUO"],
+};
+
+export function getHourlyPricing(): Partial<Record<PricingTariff, number>> {
+  const prices: Partial<Record<PricingTariff, number>> = {};
+
+  for (const [tariff, zoneNames] of Object.entries(HOURLY_TARIFF_ZONES) as [
+    Exclude<PricingTariff, "PS5">,
+    string[],
+  ][]) {
+    const zone = CLUBS.flatMap((club) => club.zones).find((candidate) =>
+      zoneNames.includes(candidate.name),
+    );
+    if (zone) prices[tariff] = zone.pricePerHour;
+  }
+
+  return prices;
+}
+
 export function totalPcCount(club: Club): number {
   return club.zones.reduce((sum, zone) => sum + zone.pcCount, 0);
 }
@@ -384,10 +412,6 @@ export function getClubById(id: string): Club | undefined {
 
 export function getClubBySlug(slug: string): Club | undefined {
   return CLUBS.find((club) => club.slug === slug);
-}
-
-export function getClubZones(club: Club): ClubZone[] {
-  return club.zones;
 }
 
 export function getLowestClubPrice(club: Club): number {

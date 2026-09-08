@@ -2,11 +2,13 @@
 
 import { motion } from "framer-motion";
 import { fadeUp } from "@/lib/animations";
-import { PRICING_ROWS, type PricingTariff } from "@/lib/site-data";
+import { getHourlyPricing, PRICING_ROWS, type PricingTariff } from "@/lib/site-data";
 
 const TARIFFS: PricingTariff[] = ["STANDART", "STANDART+", "VIP/TRIO", "DUO", "PS5"];
 
 export default function PricingPage() {
+  const hourlyPrices = getHourlyPricing();
+
   return (
     <div className="min-h-screen bg-transparent pt-24 pb-16">
       <div className="mx-auto max-w-5xl px-4 md:px-8">
@@ -52,7 +54,9 @@ export default function PricingPage() {
                       {row.note && <p className="mt-0.5 text-xs text-white/40">{row.note}</p>}
                     </td>
                     {TARIFFS.map((tariff) => {
-                      const price = row.prices[tariff];
+                      const price = row.label === "1 час"
+                        ? hourlyPrices[tariff] ?? row.prices?.[tariff]
+                        : row.prices?.[tariff];
                       const dayPrice = tariff === "PS5" ? undefined : row.dayPrices?.[tariff];
                       return (
                         <td key={tariff} className="border-b border-white/5 px-3 py-4">
