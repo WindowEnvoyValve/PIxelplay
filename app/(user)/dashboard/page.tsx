@@ -24,41 +24,19 @@ export default function DashboardPage() {
     if (!user || authLoading) return;
     const currentUser = user;
 
-    async function fetchProfile() {
-      try {
-        const res = await fetch("/api/user/profile");
-        if (res.ok) {
-          const data = await res.json();
-          setProfile(data);
-        } else {
-          const nick = currentUser.email?.split("@")[0] || "Player";
-          setProfile({
-            nickname: nick,
-            email: currentUser.email || "",
-            role: "user",
-            loyalty_level: "rookie",
-            hours_3m: 0,
-            total_hours: 0,
-            balance: 0,
-            bonus_balance: 0,
-          });
-        }
-      } catch {
-        const nick = currentUser.email?.split("@")[0] || "Player";
-        setProfile({
-          nickname: nick,
-          email: currentUser.email || "",
-          role: "user",
-          loyalty_level: "rookie",
-          hours_3m: 0,
-          total_hours: 0,
-          balance: 0,
-          bonus_balance: 0,
-        });
-      }
-    }
-
-    fetchProfile();
+    // Set profile directly from Firebase Auth user
+    const nick = currentUser.email?.split("@")[0] || "Player";
+    setProfile({
+      nickname: nick,
+      email: currentUser.email || "",
+      role: "user",
+      loyalty_level: "rookie",
+      hours_3m: 0,
+      total_hours: 0,
+      balance: 0,
+      bonus_balance: 0,
+    });
+    setLoading(false);
   }, [user, authLoading]);
 
   if (authLoading || loading) {
