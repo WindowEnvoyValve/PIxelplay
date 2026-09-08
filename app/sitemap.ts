@@ -14,7 +14,6 @@ const routes = [
   "/partners",
   "/tournaments",
   "/terms",
-  "/tournaments",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
