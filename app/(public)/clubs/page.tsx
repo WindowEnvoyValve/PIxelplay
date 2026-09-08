@@ -5,11 +5,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { CLUBS, clubStatusLabel, getClubBySlug, totalPcCount } from "@/lib/site-data";
 import { fadeUp, staggerItem } from "@/lib/animations";
-import { SOCIAL_LINKS } from "@/lib/site-config";
+import { BookingModal } from "@/components/booking/BookingModal";
 
 export default function ClubsPage() {
   const [activeSlug, setActiveSlug] = useState(CLUBS[0].slug);
   const [activeZone, setActiveZone] = useState<string>(CLUBS[0].zones[0].name);
+  const [bookingOpen, setBookingOpen] = useState(false);
   const active = getClubBySlug(activeSlug) ?? CLUBS[0];
 
   const activeZoneData = active.zones.find((z) => z.name === activeZone) ?? active.zones[0];
@@ -171,14 +172,13 @@ export default function ClubsPage() {
               <div className="text-right">
                 <p className="font-display text-2xl font-bold text-brand">{zonePrice} BYN</p>
                 <p className="text-xs text-white/40">за час · {zonePcCount} ПК</p>
-                <a
-                  href={SOCIAL_LINKS.telegram}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={() => setBookingOpen(true)}
                   className="cyber-button mt-3 !px-5 !py-2 text-[10px]"
                 >
                   Забронировать
-                </a>
+                </button>
               </div>
             </div>
           </motion.div>
@@ -229,6 +229,7 @@ export default function ClubsPage() {
         </div>
       </motion.div>
       </div>
+      <BookingModal open={bookingOpen} initialClubSlug={active.slug} onClose={() => setBookingOpen(false)} />
     </main>
   );
 }

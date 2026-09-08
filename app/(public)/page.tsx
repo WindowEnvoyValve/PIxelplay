@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
 import { CLUBS, SITE_STATS, clubStatusLabel, getLowestClubPrice, getMaxRefreshRate, totalNetworkPcCount, totalPcCount } from "@/lib/site-data";
-import { SOCIAL_LINKS } from "@/lib/site-config";
+import { BookingModal } from "@/components/booking/BookingModal";
 
 export default function HomePage() {
+  const [bookingOpen, setBookingOpen] = useState(false);
   const maxRefreshRate = getMaxRefreshRate(CLUBS);
 
   return (
@@ -104,14 +106,13 @@ export default function HomePage() {
 
         {/* Кнопки */}
         <motion.div variants={staggerItem} className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href={SOCIAL_LINKS.telegram}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={() => setBookingOpen(true)}
             className="cyber-button"
           >
             ЗАБРОНИРОВАТЬ
-          </a>
+          </button>
           <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
             <Link
               href="/clubs"
@@ -155,6 +156,7 @@ export default function HomePage() {
           ))}
         </motion.div>
       </motion.section>
+      <BookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} />
     </main>
   );
 }
