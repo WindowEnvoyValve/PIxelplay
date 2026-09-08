@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
 import { CLUBS, SITE_STATS, clubStatusLabel, getLowestClubPrice, getMaxRefreshRate, totalNetworkPcCount, totalPcCount } from "@/lib/site-data";
+import { SOCIAL_LINKS } from "@/lib/site-config";
 
 export default function HomePage() {
   const maxRefreshRate = getMaxRefreshRate(CLUBS);
@@ -104,7 +105,7 @@ export default function HomePage() {
         {/* Кнопки */}
         <motion.div variants={staggerItem} className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <a
-            href="https://t.me/pixelplay_mogilev"
+            href={SOCIAL_LINKS.telegram}
             target="_blank"
             rel="noopener noreferrer"
             className="cyber-button"

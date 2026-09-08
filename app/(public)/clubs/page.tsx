@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { CLUBS, clubStatusLabel, getClubBySlug, totalPcCount } from "@/lib/site-data";
 import { fadeUp, staggerItem } from "@/lib/animations";
+import { SOCIAL_LINKS } from "@/lib/site-config";
 
 export default function ClubsPage() {
   const [activeSlug, setActiveSlug] = useState(CLUBS[0].slug);
@@ -178,7 +179,7 @@ export default function ClubsPage() {
                 <p className="font-display text-2xl font-bold text-brand">{zonePrice} BYN</p>
                 <p className="text-xs text-white/40">за час · {zonePcCount} ПК</p>
                 <a
-                  href="https://t.me/pixelplay_mogilev"
+                  href={SOCIAL_LINKS.telegram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cyber-button mt-3 !px-5 !py-2 text-[10px]"

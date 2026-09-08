@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { SITE_STATS } from "@/lib/site-data";
+import { SOCIAL_LINKS } from "@/lib/site-config";
 
 const RULES_CLUB = [
   { title: "Время работы", text: `Все клубы PIXEL работают круглосуточно, ${SITE_STATS.networkHours}. Вход — по QR-коду или карте лояльности.` },
@@ -63,7 +64,7 @@ export default function RulesPage() {
       <div className="mt-12 text-center">
         <p className="text-sm text-white/35">
           Вопросы? Пишите в{" "}
-          <Link href="https://t.me/pixelplay_mogilev" target="_blank" className="text-brand hover:underline">
+          <Link href={SOCIAL_LINKS.telegram} target="_blank" className="text-brand hover:underline">
             Telegram
           </Link>{" "}
           или звоните{" "}

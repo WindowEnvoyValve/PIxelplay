@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Orbitron, Exo_2 } from "next/font/google";
 import { CLUBS, getMaxRefreshRate } from "@/lib/site-data";
+import { SITE_URL } from "@/lib/site-config";
 import "./globals.css";
 
 const maxRefreshRate = getMaxRefreshRate(CLUBS);
@@ -20,7 +21,7 @@ const exo = Exo_2({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://pixelplay.by"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || SITE_URL),
   alternates: { canonical: "/" },
   title: "PIXEL — Компьютерные клубы в Могилёве",
   description: siteDescription,

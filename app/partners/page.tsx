@@ -5,26 +5,27 @@ import Link from "next/link";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import Image from "next/image";
 import { Logo } from "@/components/ui/Logo";
+import { SOCIAL_LINKS } from "@/lib/site-config";
 
 const SOCIALS = [
   {
     label: "Instagram",
-    href: "https://www.instagram.com/pixelplay_mogilev",
+    href: SOCIAL_LINKS.instagram,
     icon: <Image src="/instagram.svg" alt="Instagram" width={20} height={20} className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />,
   },
   {
     label: "TikTok",
-    href: "https://www.tiktok.com/@pixelplay_mogilev",
+    href: SOCIAL_LINKS.tiktok,
     icon: <Image src="/tiktok.svg" alt="TikTok" width={20} height={20} className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />,
   },
   {
     label: "Telegram",
-    href: "https://t.me/pixelplay_mogilev",
+    href: SOCIAL_LINKS.telegram,
     icon: <Image src="/telegram.svg" alt="Telegram" width={20} height={20} className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />,
   },
   {
     label: "YouTube",
-    href: "https://www.youtube.com/@PixelPlayClub",
+    href: SOCIAL_LINKS.youtube,
     icon: <Image src="/youtube.svg" alt="YouTube" width={20} height={20} className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />,
   },
 ];
@@ -492,7 +493,7 @@ export default function PartnersPage() {
               ))}
             </div>
             <a
-              href="https://t.me/pixelplay_mogilev"
+              href={SOCIAL_LINKS.telegram}
               target="_blank"
               rel="noopener noreferrer"
               className="cyber-button !px-5 !py-2"
@@ -896,7 +897,7 @@ export default function PartnersPage() {
 
                 {/* Telegram */}
                 <motion.a
-                  href="https://t.me/pixelplay_mogilev"
+                  href={SOCIAL_LINKS.telegram}
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ y: -4 }}

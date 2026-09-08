@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
+import { SOCIAL_LINKS } from "@/lib/site-config";
 
 export default function PromosPage() {
   return (
@@ -131,7 +132,7 @@ export default function PromosPage() {
             ))}
           </ul>
           <a
-            href="https://t.me/pixelplay_mogilev"
+            href={SOCIAL_LINKS.telegram}
             target="_blank"
             rel="noopener noreferrer"
             className="cyber-button mt-6 w-full"

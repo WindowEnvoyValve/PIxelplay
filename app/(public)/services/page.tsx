@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
+import { SOCIAL_LINKS } from "@/lib/site-config";
 
 const SERVICES = [
   {
@@ -15,7 +16,6 @@ const SERVICES = [
       "Торт, напитки и снеки включены",
       "Турниры и конкурсы с призами",
     ],
-    topic: "Здравствуйте! Хочу узнать подробнее про Дни рождения в PIXEL.",
   },
   {
     icon: "🏢",
@@ -28,7 +28,6 @@ const SERVICES = [
       "Командные турниры и активности",
       "Кейтеринг и фуршет на заказ",
     ],
-    topic: "Здравствуйте! Интересует организация корпоратива в PIXEL.",
   },
   {
     icon: "🏆",
@@ -41,7 +40,6 @@ const SERVICES = [
       "Призовой фонд и награды",
       "Онлайн-трансляции матчей",
     ],
-    topic: "Здравствуйте! Хочу обсудить организацию турнира с PIXEL.",
   },
 ];
 
@@ -89,7 +87,7 @@ export default function ServicesPage() {
               ))}
             </ul>
             <a
-              href="https://t.me/pixelplay_mogilev"
+              href={SOCIAL_LINKS.telegram}
               target="_blank"
               rel="noopener noreferrer"
               className="cyber-button mt-8 w-full"

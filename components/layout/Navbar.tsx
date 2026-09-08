@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import Image from "next/image";
 import { Logo } from "@/components/ui/Logo";
+import { SOCIAL_LINKS } from "@/lib/site-config";
 
 const NAV_ITEMS = [
   { href: "/clubs", label: "Локации" },
@@ -18,10 +19,10 @@ const NAV_ITEMS = [
 ];
 
 const SOCIALS = [
-  { label: "Instagram", href: "https://www.instagram.com/pixelplay_mogilev", hover: "hover:border-[#E1306C]/70", file: "instagram" },
-  { label: "TikTok", href: "https://www.tiktok.com/@pixelplay_mogilev", hover: "hover:border-white/80", file: "tiktok" },
-  { label: "Telegram", href: "https://t.me/pixelplay_mogilev", hover: "hover:border-[#229ED9]/70", file: "telegram" },
-  { label: "YouTube", href: "https://www.youtube.com/@PixelPlayClub", hover: "hover:border-[#FF0000]/70", file: "youtube" },
+  { label: "Instagram", href: SOCIAL_LINKS.instagram, hover: "hover:border-[#E1306C]/70", file: "instagram" },
+  { label: "TikTok", href: SOCIAL_LINKS.tiktok, hover: "hover:border-white/80", file: "tiktok" },
+  { label: "Telegram", href: SOCIAL_LINKS.telegram, hover: "hover:border-[#229ED9]/70", file: "telegram" },
+  { label: "YouTube", href: SOCIAL_LINKS.youtube, hover: "hover:border-[#FF0000]/70", file: "youtube" },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -119,7 +120,7 @@ export function Navbar() {
               ))}
             </div>
             <a
-              href="https://t.me/pixelplay_mogilev"
+              href={SOCIAL_LINKS.telegram}
               target="_blank"
               rel="noopener noreferrer"
               className="cyber-button !px-5 !py-2.5"
@@ -242,7 +243,7 @@ export function Navbar() {
                     ))}
                   </div>
                   <a
-                    href="https://t.me/pixelplay_mogilev"
+                    href={SOCIAL_LINKS.telegram}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={closeMobileMenu}

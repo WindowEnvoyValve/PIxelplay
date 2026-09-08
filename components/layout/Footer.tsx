@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { CLUBS } from "@/lib/site-data";
+import { SOCIAL_LINKS } from "@/lib/site-config";
 
 export function Footer() {
   return (
@@ -51,7 +52,7 @@ export function Footer() {
             </li>
             <li>
               <a
-                href="https://t.me/pixelplay_bot"
+                href={SOCIAL_LINKS.telegramBot}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="transition-colors hover:text-white"
@@ -65,7 +66,7 @@ export function Footer() {
 
       <div className="border-t border-white/5 py-5 text-center text-xs text-white/25">
         <p>
-          © 2026 ООО «Пиксель Плей» — сеть компьютерных клубов PIXEL. Все права защищены.
+          © {new Date().getFullYear()} ООО «Пиксель Плей» — сеть компьютерных клубов PIXEL. Все права защищены.
         </p>
         <p className="mt-1.5">
           УНП 791332791 · 212038, г. Могилёв, ул. Мовчанского 53Б-1

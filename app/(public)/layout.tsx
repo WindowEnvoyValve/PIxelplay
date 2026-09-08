@@ -1,18 +1,19 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { SITE_URL, SOCIAL_LINKS } from "@/lib/site-config";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "PIXEL",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://pixelplay.by",
-    logo: `${process.env.NEXT_PUBLIC_SITE_URL || "https://pixelplay.by"}/logo.png`,
+    url: process.env.NEXT_PUBLIC_SITE_URL || SITE_URL,
+    logo: `${process.env.NEXT_PUBLIC_SITE_URL || SITE_URL}/logo.png`,
     sameAs: [
-      "https://www.instagram.com/pixelplay_mogilev",
-      "https://www.tiktok.com/@pixelplay_mogilev",
-      "https://t.me/pixelplay_mogilev",
-      "https://www.youtube.com/@PixelPlayClub",
+      SOCIAL_LINKS.instagram,
+      SOCIAL_LINKS.tiktok,
+      SOCIAL_LINKS.telegram,
+      SOCIAL_LINKS.youtube,
     ],
   };
 

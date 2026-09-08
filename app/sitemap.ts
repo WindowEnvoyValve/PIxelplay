@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/site-config";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://pixelplay.by";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || SITE_URL;
 const routes = [
   "/",
   "/clubs",
