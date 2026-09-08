@@ -56,10 +56,11 @@ export default function PromosPage() {
             <div className="flex flex-col items-center gap-6">
               {/* Скриншот приложения (без белого фона) */}
               <Image
-                src="/langame.png"
+                src="/langame.webp"
                 alt="Приложение LANGAME"
-                width={776}
-                height={1024}
+                width={388}
+                height={512}
+                sizes="(min-width: 1280px) 288px, 256px"
                 className="hidden w-64 lg:block xl:w-72"
               />
               <div className="flex flex-col items-center gap-3">

@@ -7,6 +7,8 @@ import Image from "next/image";
 import { Logo } from "@/components/ui/Logo";
 import { SOCIAL_LINKS } from "@/lib/site-config";
 
+const MotionImage = motion(Image);
+
 const SOCIALS = [
   {
     label: "Instagram",
@@ -207,7 +209,7 @@ type CaseSection = { heading: string; paragraphs: string[]; highlight?: boolean 
 const CASES: { title: string; image: string; sections: CaseSection[] }[] = [
   {
     title: "Кибер-вызов от «Белтелеком» ко Дню Победы",
-    image: "/case1-3.png",
+    image: "/case1-3.webp",
     sections: [
       {
         heading: "Кратко о проекте",
@@ -257,7 +259,7 @@ const CASES: { title: string; image: string; sections: CaseSection[] }[] = [
   },
   {
     title: "Корпоративный турнир ОАО «Зенит» по Counter-Strike 2",
-    image: "/case1-2.png",
+    image: "/case1-2.webp",
     sections: [
       {
         heading: "Кратко о проекте",
@@ -316,7 +318,7 @@ const CASES: { title: string; image: string; sections: CaseSection[] }[] = [
   },
   {
     title: "Первый кибертурнир по Counter-Strike 2 для сотрудников",
-    image: "/case2.png",
+    image: "/case2.webp",
     sections: [
       {
         heading: "Кратко о проекте",
@@ -451,7 +453,7 @@ export default function PartnersPage() {
       {/* Хедер */}
       <header className="fixed inset-x-0 top-0 z-50 bg-void/85 backdrop-blur-md border-b border-brand/15">
         <div className="relative flex h-20 items-center justify-between px-4 md:px-8">
-          <Logo size={120} href="/" className="shrink-0" />
+          <Logo priority size={120} href="/" className="shrink-0" />
 
           {/* Табы — по центру, в уровень с логотипом */}
           <nav aria-label="Разделы партнёрства" role="tablist" className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 lg:flex">
@@ -613,10 +615,11 @@ export default function PartnersPage() {
                   </div>
                   <div className="flex justify-center md:justify-end">
                     <Image
-                      src="/PixelPart.png"
+                      src="/PixelPart.webp"
                       alt="Pixel Partnership"
-                      width={1024}
-                      height={1024}
+                      width={768}
+                      height={768}
+                      sizes="(max-width: 768px) calc(100vw - 4rem), (max-width: 1280px) 40vw, 448px"
                       className="h-full max-h-[480px] w-full max-w-md rounded-xl object-contain"
                     />
                   </div>
@@ -766,17 +769,19 @@ export default function PartnersPage() {
                 </h2>
 
                 {/* Слайдер фото */}
-                <div className="relative mt-8 overflow-hidden rounded-xl border border-white/10">
+                <div className="relative mt-8 h-64 overflow-hidden rounded-xl border border-white/10 md:h-[420px]">
                   <AnimatePresence mode="wait">
-                    <motion.img
+                    <MotionImage
                       key={`${activeCase}-${caseSlide}`}
                       src={CASES[activeCase].image}
                       alt={`Кейс ${activeCase + 1} — фото ${caseSlide + 1}`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 896px"
                       initial={{ opacity: 0, scale: 1.02 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="h-64 w-full object-cover md:h-[420px]"
+                      className="object-cover"
                     />
                   </AnimatePresence>
                 </div>

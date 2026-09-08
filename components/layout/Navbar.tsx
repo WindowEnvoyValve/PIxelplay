@@ -80,7 +80,7 @@ export function Navbar() {
         }`}
       >
         <div className="relative flex items-center px-4 md:px-8">
-          <Logo size={scrolled ? 100 : 120} className="shrink-0 transition-all duration-300" />
+          <Logo priority size={scrolled ? 100 : 120} className="shrink-0 transition-all duration-300" />
 
           {/* Desktop nav */}
           <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-4 lg:flex">

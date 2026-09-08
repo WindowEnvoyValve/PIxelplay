@@ -6,9 +6,10 @@ interface LogoProps {
   href?: string | null;
   withWordmark?: boolean;
   className?: string;
+  priority?: boolean;
 }
 
-export function Logo({ size = 100, href = "/", withWordmark = false, className = "" }: LogoProps) {
+export function Logo({ size = 100, href = "/", withWordmark = false, className = "", priority = false }: LogoProps) {
   const img = (
     <div className="flex items-center justify-center">
       <Image
@@ -17,7 +18,7 @@ export function Logo({ size = 100, href = "/", withWordmark = false, className =
         width={size}
         height={size}
         className={`object-contain ${className}`}
-        priority
+        priority={priority}
       />
     </div>
   );
