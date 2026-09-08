@@ -13,6 +13,7 @@ const routes = [
   "/specs",
   "/partners",
   "/terms",
+  "/tournaments",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
