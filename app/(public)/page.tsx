@@ -110,7 +110,7 @@ export default function HomePage() {
             rel="noopener noreferrer"
             className="cyber-button"
           >
-            Начать играть
+            ЗАБРОНИРОВАТЬ
           </a>
           <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
             <Link
