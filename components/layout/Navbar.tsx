@@ -19,7 +19,6 @@ const NAV_ITEMS = [
   { href: "/games", label: "Список игр" },
   { href: "/promos", label: "Акции" },
   { href: "/pricing", label: "Цены" },
-  { href: "/chat", label: "Чат" },
   { href: "/partners", label: "Партнерам" },
 ];
 
