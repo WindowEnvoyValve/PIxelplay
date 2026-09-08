@@ -46,8 +46,9 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
-    closeMobileMenu();
-  }, [pathname, closeMobileMenu]);
+    const frame = requestAnimationFrame(() => setMobileMenuOpen(false));
+    return () => cancelAnimationFrame(frame);
+  }, [pathname]);
 
   useEffect(() => {
     if (!mobileMenuOpen) {
