@@ -14,6 +14,7 @@ export default function HomePage() {
         muted
         loop
         playsInline
+        aria-hidden="true"
         className="fixed inset-0 -z-10 h-full w-full object-cover opacity-70"
       >
         <source src="/hero.mp4" type="video/mp4" />

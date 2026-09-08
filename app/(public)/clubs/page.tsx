@@ -23,6 +23,7 @@ export default function ClubsPage() {
         muted
         loop
         playsInline
+        aria-hidden="true"
         className="fixed inset-0 -z-10 h-full w-full object-cover opacity-70"
       >
         <source src="/hero.mp4" type="video/mp4" />
@@ -48,7 +49,11 @@ export default function ClubsPage() {
           return (
             <motion.button
               key={club.slug}
-              onClick={() => setActiveSlug(club.slug)}
+              onClick={() => {
+                setActiveSlug(club.slug);
+                setActiveZone(club.zones[0].name);
+              }}
+              aria-pressed={isActive}
               variants={staggerItem}
               custom={i}
               whileHover={{ y: -4 }}
@@ -119,6 +124,8 @@ export default function ClubsPage() {
             <button
               key={zone.name}
               onClick={() => setActiveZone(zone.name)}
+              type="button"
+              aria-pressed={activeZone === zone.name}
               className={`px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] transition-all ${
                 activeZone === zone.name
                   ? "bg-brand text-white shadow-[0_0_16px_rgba(255,106,0,0.4)]"

@@ -76,7 +76,7 @@ export function Navbar() {
             })}
           </nav>
 
-          <div className="ml-auto flex items-center gap-5 md:flex">
+          <div className="ml-auto hidden items-center gap-5 lg:flex">
             <div className="flex items-center gap-2">
               {SOCIALS.map((s) => (
                 <a
@@ -103,9 +103,12 @@ export function Navbar() {
           </div>
 
           <button
+            type="button"
             onClick={toggleMobileMenu}
-            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
+            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
             aria-label="Меню"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
           >
             <motion.span animate={{ rotate: mobileMenuOpen ? 45 : 0, y: mobileMenuOpen ? 6 : 0 }} className="h-0.5 w-6 bg-brand" />
             <motion.span animate={{ opacity: mobileMenuOpen ? 0 : 1 }} className="h-0.5 w-6 bg-white" />
@@ -117,10 +120,12 @@ export function Navbar() {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.nav
+              id="mobile-navigation"
+              aria-label="Мобильная навигация"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="overflow-hidden border-t border-brand/15 bg-void/95 backdrop-blur-md md:hidden"
+              className="overflow-hidden border-t border-brand/15 bg-void/95 backdrop-blur-md lg:hidden"
             >
               <div className="flex flex-col gap-1 px-6 py-4">
                 {NAV_ITEMS.map((item, i) => {
