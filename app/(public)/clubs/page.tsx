@@ -28,7 +28,7 @@ export default function ClubsPage() {
       />
       <div className="fixed inset-0 -z-10 bg-gradient-to-b from-void/30 via-void/25 to-void" aria-hidden />
 
-      <div className="mx-auto max-w-7xl px-6 pb-24 pt-32 md:px-10">
+      <div className="mx-auto max-w-7xl px-4 pb-24 pt-28 sm:px-6 md:px-10 md:pt-32">
       {/* Заголовок */}
       <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-12 text-center">
         <p className="mb-3 text-xs uppercase tracking-[0.4em] text-brand">Локации</p>
@@ -41,7 +41,7 @@ export default function ClubsPage() {
       </motion.div>
 
       {/* Выбор клуба */}
-      <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-10 grid gap-4 md:grid-cols-3">
+      <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-10 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         {CLUBS.map((club, i) => {
           const isActive = club.slug === activeSlug;
           return (

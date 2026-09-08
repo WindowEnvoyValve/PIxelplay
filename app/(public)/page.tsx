@@ -30,18 +30,18 @@ export default function HomePage() {
 
       {/* Hero */}
       <motion.section
-        className="mx-auto flex max-w-5xl flex-col items-center px-6 pb-28 pt-12 text-center md:pt-24"
+        className="mx-auto flex max-w-5xl flex-col items-center px-4 pb-20 pt-16 text-center sm:px-6 md:pt-24"
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
       >
-        <motion.p variants={staggerItem} className="mb-6 text-xs uppercase tracking-[0.4em] text-brand">
+        <motion.p variants={staggerItem} className="mb-4 text-[10px] uppercase tracking-[0.28em] text-brand sm:mb-6 sm:text-xs sm:tracking-[0.4em]">
           Сеть компьютерных клубов PIXEL
         </motion.p>
 
         <motion.h1
           variants={staggerItem}
-          className="font-display text-5xl font-black leading-tight text-white md:text-7xl"
+          className="max-w-[15ch] font-display text-[28px] font-black leading-[1.1] text-white sm:max-w-none sm:text-5xl sm:leading-tight md:text-7xl"
         >
           ИГРАЙ НА
           <br />
@@ -50,15 +50,25 @@ export default function HomePage() {
           </span>
         </motion.h1>
 
-        <motion.p variants={staggerItem} className="mt-8 max-w-xl text-white/60">
+        <motion.p variants={staggerItem} className="mt-7 max-w-xl text-xs leading-relaxed text-white/60 sm:mt-8 sm:text-base">
           Атмосферные киберпространства в Могилеве. Игровые ПК разных конфигураций, мониторы до {maxRefreshRate} Hz,
           программа лояльности LETS PLAY с кешбэком до 25% и живые турниры.
         </motion.p>
 
+        <motion.div variants={staggerItem} className="mt-7 mb-5 flex w-full max-w-[26rem] flex-col gap-2.5 md:hidden">
+          <button
+            type="button"
+            onClick={() => setBookingOpen(true)}
+            className="cyber-button w-full py-4 text-sm shadow-[0_0_26px_rgba(255,106,0,0.35)]"
+          >
+            ЗАБРОНИРОВАТЬ
+          </button>
+        </motion.div>
+
         {/* Карточки клубов */}
-        <motion.div variants={staggerItem} className="mx-auto w-full max-w-5xl grid gap-4 md:grid-cols-3">
+        <motion.div variants={staggerItem} className="mx-auto grid w-full max-w-5xl gap-4 md:grid-cols-3">
           {CLUBS.map((club, i) => (
-            <motion.div key={club.slug} className="cyber-panel flex flex-col p-5 text-left" {...cardHover} custom={i}>
+            <motion.div key={club.slug} className="cyber-panel flex flex-col p-3.5 text-left sm:p-5" {...cardHover} custom={i}>
               <div className="flex items-center justify-between">
                 <span className="font-display text-sm font-bold uppercase tracking-widest text-white">
                   {club.name}
@@ -69,7 +79,7 @@ export default function HomePage() {
                 </span>
               </div>
               <p className="mt-1 text-xs text-white/35">{club.address}</p>
-              <p className="mt-3 font-display text-2xl font-bold text-brand">
+              <p className="mt-3 font-display text-lg font-bold text-brand sm:text-2xl">
                 от {getLowestClubPrice(club)} <span className="text-sm font-medium text-white/50">BYN/час</span>
               </p>
               <div className="mt-3 flex flex-wrap gap-1.5">
@@ -105,18 +115,18 @@ export default function HomePage() {
         </motion.div>
 
         {/* Кнопки */}
-        <motion.div variants={staggerItem} className="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <motion.div variants={staggerItem} className="mt-10 hidden w-full max-w-[26rem] flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:items-center sm:justify-center md:flex">
           <button
             type="button"
             onClick={() => setBookingOpen(true)}
-            className="cyber-button"
+            className="cyber-button w-full sm:w-auto"
           >
             ЗАБРОНИРОВАТЬ
           </button>
-          <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+          <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
             <Link
               href="/clubs"
-              className="inline-block rounded-md border-2 border-brand bg-brand/15 px-7 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-[0_0_16px_rgba(255,106,0,0.25)] transition-all hover:border-brand hover:bg-brand hover:text-white hover:shadow-[0_0_28px_rgba(255,106,0,0.5)]"
+              className="inline-flex w-full items-center justify-center rounded-md border-2 border-brand bg-brand/15 px-7 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-[0_0_16px_rgba(255,106,0,0.25)] transition-all hover:border-brand hover:bg-brand hover:text-white hover:shadow-[0_0_28px_rgba(255,106,0,0.5)] sm:w-auto"
             >
               Выбрать клуб
             </Link>
@@ -139,9 +149,8 @@ export default function HomePage() {
         <motion.div
           variants={fadeUp}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="mx-auto mt-10 max-w-5xl grid grid-cols-4 gap-4"
+          animate="visible"
+          className="mx-auto mt-10 grid w-full max-w-5xl grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4"
         >
           {[
             { value: `${totalNetworkPcCount(CLUBS)}+`, label: "игровых ПК" },
@@ -149,9 +158,9 @@ export default function HomePage() {
             { value: SITE_STATS.cashbackLegend, label: "кешбэк Legend" },
             { value: SITE_STATS.networkHours, label: "ОТКРЫТЫ" },
           ].map((stat) => (
-            <div key={stat.label} className="border-l-2 border-brand/40 py-2 pl-4 text-left">
-              <p className="font-display text-3xl font-bold text-white">{stat.value}</p>
-              <p className="text-xs uppercase tracking-widest text-white/40">{stat.label}</p>
+            <div key={stat.label} className="border-l-2 border-brand/40 py-2 pl-3 text-center sm:pl-4">
+              <p className="font-display text-2xl font-bold text-white sm:text-3xl">{stat.value}</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/40 sm:text-xs">{stat.label}</p>
             </div>
           ))}
         </motion.div>

@@ -6,7 +6,7 @@ import { SOCIAL_LINKS } from "@/lib/site-config";
 export function Footer() {
   return (
     <footer className="relative border-t border-brand/15 bg-panel">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-4 md:px-10">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-10 sm:px-6 md:grid-cols-4 md:px-10 md:py-14">
         <div>
           <Logo size={48} />
           <p className="mt-4 max-w-xs text-sm text-white/40">

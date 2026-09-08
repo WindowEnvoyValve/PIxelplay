@@ -40,6 +40,16 @@ const TABS = [
   { id: "contacts", label: "Контакты" },
 ];
 
+const MOBILE_NAV_ITEMS = [
+  { href: "/services", label: "Услуги" },
+  { href: "/promos", label: "Акции" },
+  { href: "/tournaments", label: "Турниры" },
+  { href: "/specs", label: "Железо" },
+  { href: "/games", label: "Список игр" },
+  { href: "/partners", label: "Партнёрам" },
+  { href: "/pricing", label: "Цены" },
+];
+
 const PARTNERS = [
   {
     img: "/partner1.png",
@@ -377,6 +387,7 @@ export default function PartnersInteractive() {
   const [showModal, setShowModal] = useState(false);
   const [caseSlide, setCaseSlide] = useState(0);
   const [activeCase, setActiveCase] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const modalTriggerRef = useRef<HTMLElement | null>(null);
   const closeModal = useCallback(() => {
@@ -433,8 +444,8 @@ export default function PartnersInteractive() {
     <div className="relative min-h-screen">
       {/* Хедер */}
       <header className="fixed inset-x-0 top-0 z-50 bg-void/85 backdrop-blur-md border-b border-brand/15">
-        <div className="relative flex h-20 items-center justify-between px-4 md:px-8">
-          <Logo priority size={120} href="/" className="shrink-0" />
+        <div className="relative flex h-20 items-center justify-between px-3 sm:px-4 md:px-8">
+          <Logo priority size={100} href="/" className="h-auto w-[92px] shrink-0 sm:w-[120px]" />
 
           {/* Табы — по центру, в уровень с логотипом */}
           <nav aria-label="Разделы партнёрства" role="tablist" className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 lg:flex">
@@ -459,8 +470,8 @@ export default function PartnersInteractive() {
             ))}
           </nav>
 
-          <div className="flex h-full items-center gap-5">
-            <div className="flex items-center gap-2">
+          <div className="flex h-full min-w-0 items-center gap-1.5 sm:gap-5">
+            <div className="flex items-center gap-0 sm:gap-2">
               {SOCIALS.map((s) => (
                 <a
                   key={s.label}
@@ -469,7 +480,7 @@ export default function PartnersInteractive() {
                   rel="noopener noreferrer"
                   aria-label={s.label}
                   title={s.label}
-                  className="group flex h-10 w-10 items-center justify-center transition-all"
+                  className="group flex h-9 w-9 items-center justify-center transition-all sm:h-10 sm:w-10"
                 >
                   {s.icon}
                 </a>
@@ -479,18 +490,60 @@ export default function PartnersInteractive() {
               href={SOCIAL_LINKS.telegram}
               target="_blank"
               rel="noopener noreferrer"
-              className="cyber-button !px-5 !py-2"
+              className="partners-contact cyber-button !px-5 !py-2"
             >
               Связаться
             </a>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-md border border-brand/30 lg:hidden"
+              aria-label="Меню"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="partners-mobile-navigation"
+            >
+              <motion.span animate={{ rotate: mobileMenuOpen ? 45 : 0, y: mobileMenuOpen ? 6 : 0 }} className="h-0.5 w-6 bg-brand" />
+              <motion.span animate={{ opacity: mobileMenuOpen ? 0 : 1 }} className="h-0.5 w-6 bg-white" />
+              <motion.span animate={{ rotate: mobileMenuOpen ? -45 : 0, y: mobileMenuOpen ? -6 : 0 }} className="h-0.5 w-6 bg-brand" />
+            </button>
           </div>
         </div>
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.nav
+              id="partners-mobile-navigation"
+              aria-label="Мобильная навигация"
+              initial={{ opacity: 0, height: 0, y: -10 }}
+              animate={{ opacity: 1, height: "auto", y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -8 }}
+              className="rounded-b-3xl border-x border-b border-brand/20 bg-[#090b10]/[0.98] px-4 py-5 shadow-[0_24px_60px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,106,0,0.12)] backdrop-blur-xl lg:hidden"
+            >
+              <div className="flex flex-col gap-2">
+                {MOBILE_NAV_ITEMS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`group relative flex min-h-12 items-center justify-center overflow-hidden rounded-xl border px-3 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] transition-all ${
+                      item.href === "/partners"
+                        ? "border-brand/70 bg-brand/10 text-brand shadow-[0_0_20px_rgba(255,106,0,0.12)]"
+                        : "border-white/10 bg-white/[0.025] text-white/90 hover:border-brand/45 hover:bg-brand/5 hover:text-white"
+                    }`}
+                  >
+                    <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent opacity-60" />
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* Контент */}
       <div className="mx-auto max-w-7xl px-4 pb-16 pt-28 md:px-8">
         {/* Табы для узких экранов */}
-        <div aria-label="Разделы партнёрства" role="tablist" className="mb-10 flex flex-wrap gap-2 lg:hidden">
+        <div aria-label="Разделы партнёрства" role="tablist" className="mb-8 grid grid-cols-2 gap-2 lg:hidden">
           {TABS.map((tab) => (
             <button
               key={tab.id}
@@ -499,7 +552,7 @@ export default function PartnersInteractive() {
               role="tab"
               aria-selected={activeTab === tab.id}
               aria-controls={`partner-panel-${tab.id}`}
-              className={`relative overflow-hidden rounded-md border px-4 py-2 text-sm uppercase tracking-[0.15em] transition-all ${
+              className={`relative flex min-h-10 min-w-0 items-center justify-center overflow-hidden rounded-md border px-2 py-2 text-center text-[10px] uppercase tracking-[0.08em] transition-all sm:px-4 sm:text-sm sm:tracking-[0.15em] ${
                 activeTab === tab.id
                   ? "border-brand/70 bg-gradient-to-b from-brand/40 to-brand/15 text-brand shadow-[0_0_16px_rgba(255,106,0,0.35)]"
                   : "border-white/10 bg-gradient-to-b from-white/[0.09] via-white/[0.04] to-brand/[0.06] text-white/80 hover:border-brand/40 hover:from-brand/20 hover:to-brand/[0.08] hover:text-white"
@@ -536,7 +589,7 @@ export default function PartnersInteractive() {
               </div>
 
               {/* Логотипы партнёров */}
-              <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-6">
+              <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 md:gap-6 lg:mt-10 lg:grid-cols-6">
                 {PARTNERS.map((p, i) => (
                   <motion.div
                     id="partner-panel-award"
@@ -549,7 +602,7 @@ export default function PartnersInteractive() {
                       href={p.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative flex h-52 w-full overflow-hidden rounded-xl bg-black border border-white/10 transition-all duration-500 group-hover:border-brand/40 group-hover:shadow-[0_0_35px_rgba(255,106,0,0.15)]"
+                      className="relative flex h-56 w-full overflow-hidden rounded-xl border border-white/10 bg-black transition-all duration-500 group-hover:border-brand/40 group-hover:shadow-[0_0_35px_rgba(255,106,0,0.15)] sm:h-52"
                     >
                       <Image
                         src={p.img}
