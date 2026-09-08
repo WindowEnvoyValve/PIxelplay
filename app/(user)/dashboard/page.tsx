@@ -17,29 +17,13 @@ const LOYALTY_TIERS: Record<string, { title: string; minHours: number; cashback:
 
 export default function DashboardPage() {
   const { user, loading: authLoading } = useAuth();
-  const [profile, setProfile] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!user || authLoading) return;
-    const currentUser = user;
+    setMounted(true);
+  }, []);
 
-    // Set profile directly from Firebase Auth user
-    const nick = currentUser.email?.split("@")[0] || "Player";
-    setProfile({
-      nickname: nick,
-      email: currentUser.email || "",
-      role: "user",
-      loyalty_level: "rookie",
-      hours_3m: 0,
-      total_hours: 0,
-      balance: 0,
-      bonus_balance: 0,
-    });
-    setLoading(false);
-  }, [user, authLoading]);
-
-  if (authLoading || loading) {
+  if (!mounted || authLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="animate-pulse text-brand">ЗАГРУЗКА...</div>
@@ -47,11 +31,21 @@ export default function DashboardPage() {
     );
   }
 
-  if (!user) return null;
+  if (!user) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <p className="text-white/40 mb-4">Войдите в аккаунт</p>
+          <Link href="/login" className="cyber-button !px-6 !py-3">
+            Войти
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
-  const tier = LOYALTY_TIERS[profile.loyalty_level] || LOYALTY_TIERS.rookie;
-  const nextTier = Object.values(LOYALTY_TIERS).find(t => t.minHours > (profile.hours_3m || 0));
-  const progress = nextTier ? Math.min((((profile.hours_3m || 0) / nextTier.minHours) * 100), 100) : 100;
+  const nick = user.email?.split("@")[0] || "Player";
+  const tier = LOYALTY_TIERS.rookie;
   const prefix = "";
   const prefixColor = "#ff6a00";
 
@@ -61,7 +55,7 @@ export default function DashboardPage() {
         <p className="text-xs uppercase tracking-[0.3em] text-white/40">Личный кабинет</p>
         <h1 className="mt-2 font-display text-3xl font-black text-white">
           ПРИВЕТ, <span className="text-gradient-brand">
-            <UserPrefix prefix={prefix} color={prefixColor}>{profile.nickname}</UserPrefix>
+            <UserPrefix prefix={prefix} color={prefixColor}>{nick}</UserPrefix>
           </span>
         </h1>
       </motion.div>
@@ -71,8 +65,8 @@ export default function DashboardPage() {
         {[
           { label: "Активных броней", value: "0", color: "text-brand" },
           { label: "Всего бронирований", value: "0", color: "text-white" },
-          { label: "Часов за 3 мес", value: (profile.hours_3m || 0).toString(), color: "text-brand" },
-          { label: "Бонусов", value: (profile.bonus_balance || 0).toString(), color: "text-white" },
+          { label: "Часов за 3 мес", value: "0", color: "text-brand" },
+          { label: "Бонусов", value: "0", color: "text-white" },
         ].map((stat, i) => (
           <motion.div
             key={stat.label}
@@ -109,18 +103,18 @@ export default function DashboardPage() {
 
           <div>
             <div className="flex justify-between text-xs text-white/40 mb-1">
-              <span>{profile.hours_3m || 0} ч</span>
-              <span>{nextTier ? `${nextTier.minHours} ч до ${nextTier.title}` : "Максимум!"}</span>
+              <span>0 ч</span>
+              <span>30 ч до Rookie</span>
             </div>
             <div className="h-3 rounded-full bg-white/10 overflow-hidden">
               <motion.div
                 className="h-full rounded-full"
                 style={{
-                  width: `${progress}%`,
+                  width: `0%`,
                   background: `linear-gradient(90deg, ${tier.color}80, ${tier.color})`,
                 }}
                 initial={{ width: 0 }}
-                animate={{ width: `${progress}%` }}
+                animate={{ width: `0%` }}
                 transition={{ duration: 1, delay: 0.5 }}
               />
             </div>
