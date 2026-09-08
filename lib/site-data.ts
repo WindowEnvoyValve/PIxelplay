@@ -51,6 +51,8 @@ export interface PricingRow {
   dayPrices?: Partial<Record<Exclude<PricingTariff, "PS5">, number>>;
 }
 
+const METRO_ADDRESS = "ул. Мигая 13";
+
 const STANDARD_DESCRIPTION =
   "Универсальный вариант на каждый день: комфортно, удобно, всё работает как надо. Самый популярный формат, когда нужен стабильный игровой опыт без сюрпризов.";
 const STANDARD_PLUS_DESCRIPTION =
@@ -246,12 +248,12 @@ export const CLUBS: Club[] = [
     id: "club-metro",
     slug: "metro",
     name: "Pixel Metro",
-    address: "ул. Мигая 13",
+    address: METRO_ADDRESS,
     phone: "+375 29 319 30 15",
     hours: "Круглосуточно",
     status: "open",
     features: ["PS5", "Wi-Fi", "Снек-бар", "Парковка", "Кондиционер"],
-    mapUrl: "https://yandex.ru/maps/?text=пер.+Мигая,+13,+Могилев",
+    mapUrl: `https://yandex.ru/maps/?text=${encodeURIComponent(`${METRO_ADDRESS}, Могилев`)}`,
     images: { club: "/club-metro.jpg", hall: "/hall-metro.jpg" },
     zones: [
       {

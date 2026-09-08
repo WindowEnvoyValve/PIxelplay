@@ -32,7 +32,7 @@ export function Footer() {
           <ul className="space-y-2.5 text-sm text-white/50">
             <li><Link href="/specs" className="transition-colors hover:text-white">Железо и цены</Link></li>
             <li><Link href="/promos" className="transition-colors hover:text-white">Акции</Link></li>
-            <li><Link href="/partners" className="transition-colors hover:text-white">Партнерам</Link></li>
+            <li><Link href="/partners" className="transition-colors hover:text-white">Партнёрам</Link></li>
             <li><Link href="/rules" className="transition-colors hover:text-white">Правила</Link></li>
           </ul>
         </div>
