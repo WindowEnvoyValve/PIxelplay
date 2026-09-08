@@ -43,11 +43,14 @@ export function BookingModal({ open, initialClubSlug, onClose }: BookingModalPro
   const [selectedSlug, setSelectedSlug] = useState(initialClubSlug ?? CLUBS[0].slug);
   const [step, setStep] = useState<1 | 2>(1);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
   const selectedClub = CLUBS.find((club) => club.slug === selectedSlug) ?? CLUBS[0];
   const canUseInstagram = selectedClub.slug === "play";
 
   useEffect(() => {
     if (!open) return;
+    openerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     const frame = requestAnimationFrame(() => {
       setSelectedSlug(initialClubSlug ?? CLUBS[0].slug);
       setStep(1);
@@ -55,7 +58,26 @@ export function BookingModal({ open, initialClubSlug, onClose }: BookingModalPro
     });
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (event.key !== "Tab" || !dialogRef.current) return;
+      const focusable = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -64,6 +86,8 @@ export function BookingModal({ open, initialClubSlug, onClose }: BookingModalPro
       cancelAnimationFrame(frame);
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", handleKeyDown);
+      openerRef.current?.focus();
+      openerRef.current = null;
     };
   }, [initialClubSlug, onClose, open]);
 
@@ -79,6 +103,7 @@ export function BookingModal({ open, initialClubSlug, onClose }: BookingModalPro
       if (event.target === event.currentTarget) onClose();
     }}>
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="booking-modal-title"
@@ -131,6 +156,7 @@ export function BookingModal({ open, initialClubSlug, onClose }: BookingModalPro
             </>
           ) : (
             <>
+              <h2 id="booking-modal-title" className="sr-only">Как вам удобнее связаться?</h2>
               <button type="button" onClick={() => setStep(1)} className="mb-6 text-xs font-semibold text-white/50 transition-colors hover:text-white">
                 ← Все клубы
               </button>
@@ -150,7 +176,7 @@ export function BookingModal({ open, initialClubSlug, onClose }: BookingModalPro
                 <ContactLink href={`tel:${selectedClub.phone?.replace(/\s/g, "") ?? ""}`} tone="phone" label="Позвонить по телефону" hint="Моментально откроется набор номера">
                   <PhoneIcon />
                 </ContactLink>
-                <ContactLink href={SOCIAL_LINKS.telegram} tone="telegram" label="Написать в Telegram" hint="Ответим быстрее всего" external>
+                <ContactLink href={selectedClub.telegram} tone="telegram" label="Написать в Telegram" hint="Ответим быстрее всего" external>
                   <TelegramIcon />
                 </ContactLink>
                 {canUseInstagram && (

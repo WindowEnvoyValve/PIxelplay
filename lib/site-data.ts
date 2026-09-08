@@ -31,6 +31,7 @@ export interface Club {
   name: string;
   address: string;
   phone?: string;
+  telegram: string;
   hours: string;
   status: ClubStatus;
   features: string[];
@@ -71,6 +72,7 @@ export const CLUBS: Club[] = [
     name: "Pixel Play",
     address: "ул. Мовчанского, 53Б",
     phone: "+375 29 319 30 15",
+    telegram: "https://t.me/PixelPlayBy",
     hours: "Круглосуточно",
     status: "open",
     features: ["PS5", "Wi-Fi", "Снек-бар", "Парковка", "Кондиционер"],
@@ -170,6 +172,7 @@ export const CLUBS: Club[] = [
     name: "Pixel Centre",
     address: "ул. Космонавтов 2",
     phone: "+375 29 319 30 15",
+    telegram: "https://t.me/pixelplay_center",
     hours: "Круглосуточно",
     status: "open",
     features: ["PS5", "Wi-Fi", "Снек-бар", "Парковка", "Кондиционер"],
@@ -252,6 +255,7 @@ export const CLUBS: Club[] = [
     name: "Pixel Metro",
     address: METRO_ADDRESS,
     phone: "+375 29 319 30 15",
+    telegram: "https://t.me/PixelPlay_Metro",
     hours: "Круглосуточно",
     status: "open",
     features: ["PS5", "Wi-Fi", "Снек-бар", "Парковка", "Кондиционер"],
@@ -268,7 +272,7 @@ export const CLUBS: Club[] = [
           cpu: "Intel Core i5-10400F",
           gpu: "GeForce 4060",
           ram: "16 GB",
-          monitor: '27" 165Hz',
+          monitor: '27"',
           refreshRate: 165,
           chair: "Brave Pro X",
           mouse: "Logitech G Pro X Superlight 2",
@@ -285,7 +289,7 @@ export const CLUBS: Club[] = [
           cpu: "Intel i5-12400F",
           gpu: "GeForce RTX 4060",
           ram: "16 GB",
-          monitor: '27" 240Hz',
+          monitor: '27"',
           refreshRate: 240,
           chair: "Brave Pro X",
           mouse: "Razer Viper V3 Pro",
@@ -302,7 +306,7 @@ export const CLUBS: Club[] = [
           cpu: "AMD Ryzen 5 7500F",
           gpu: "GeForce RTX 5070 12GB",
           ram: "32 GB DDR5",
-          monitor: '24,5" 320Hz',
+          monitor: '24,5"',
           refreshRate: 320,
           chair: "Lorgar Ranger 743",
           mouse: "Logitech G Pro X Superlight 2",
@@ -319,7 +323,7 @@ export const CLUBS: Club[] = [
           cpu: "AMD Ryzen 5 7500F",
           gpu: "GeForce RTX 5060",
           ram: "16 GB DDR5",
-          monitor: '24,5" 320Hz',
+          monitor: '24,5"',
           refreshRate: 320,
           chair: "Brave Pro X",
           mouse: "Razer Viper V3 Pro",
@@ -336,7 +340,7 @@ export const CLUBS: Club[] = [
           cpu: "AMD Ryzen 5 7500F",
           gpu: "GeForce RTX 5060",
           ram: "16 GB DDR5",
-          monitor: '24,5" 320Hz',
+          monitor: '24,5"',
           refreshRate: 320,
           chair: "Brave Pro X",
           mouse: "Razer Viper V3 Pro",

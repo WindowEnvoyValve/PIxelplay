@@ -51,7 +51,7 @@ export default function HomePage() {
         </motion.h1>
 
         <motion.p variants={staggerItem} className="mt-8 max-w-xl text-white/60">
-          Атмосферные киберпространства в Могилеве. RTX 40/50, мониторы до {maxRefreshRate} Hz,
+          Атмосферные киберпространства в Могилеве. Игровые ПК разных конфигураций, мониторы до {maxRefreshRate} Hz,
           программа лояльности LETS PLAY с кешбэком до 25% и живые турниры.
         </motion.p>
 
