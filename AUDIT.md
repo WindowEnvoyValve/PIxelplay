@@ -4,13 +4,13 @@
 
 Текущий `main` представляет собой рабочий Next.js-сайт сети компьютерных клубов PIXEL с десятью публичными маршрутами. P0-проблем не обнаружено, основные P1-задачи закрыты. SEO, базовая accessibility, централизация данных, media pipeline и CI находятся в рабочем состоянии.
 
-Остались отдельные P2/P3-задачи hardening и polish: дальнейшая оптимизация hero video, полноценный focus trap мобильного меню, дополнительная keyboard/focus-проверка partners modal, контраст вторичного текста, оценка транзитивных PostCSS advisory и проверка предположений HSTS preload.
+Остались отдельные P2/P3-задачи hardening и polish: дальнейшая оптимизация hero video, контраст вторичного текста и проверка предположений HSTS preload.
 
 **Audit status: READY FOR FINAL POLISH**
 
 ## 2. Current Project State
 
-- **Стек:** Next.js 15.5.25, React 19.1.x, TypeScript, Tailwind CSS 4, Framer Motion, Node.js 22.
+- **Стек:** Next.js 16.3.4, React 19.2.8, TypeScript, Tailwind CSS 4, Framer Motion, Node.js 22.
 - **Архитектура:** App Router; общий public shell с `Navbar`/`Footer`; `/partners` намеренно использует отдельный microsite shell и client island `PartnersInteractive`.
 - **Данные:** клубы и характеристики централизованы в `lib/site-data.ts`; `maxRefreshRate` вычисляется из этих данных; адрес Pixel Metro — `пер. Мигая, 13`.
 - **Публичные маршруты:** `/`, `/clubs`, `/partners`, `/pricing`, `/games`, `/promos`, `/rules`, `/services`, `/specs`, `/terms`.
@@ -38,7 +38,7 @@ SEO следует считать в основном закрытым пунк�
 
 ### Security
 
-- Next.js обновлён до 15.5.25; `eslint-config-next` синхронизирован на 15.5.25.
+- Next.js обновлён до 16.3.4; `eslint-config-next` синхронизирован на 16.3.4.
 - CSP hardened: удалён `unsafe-eval`; `unsafe-inline` сохранён осознанно из-за текущих inline styles и Next.js runtime-поведения.
 - Удалён устаревший `X-XSS-Protection`.
 - Сохранены `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, HSTS, Referrer-Policy и Permissions-Policy.
@@ -47,6 +47,7 @@ SEO следует считать в основном закрытым пунк�
 ### Accessibility и UX
 
 - Mobile menu использует `aria-expanded`, `aria-controls`, `aria-label`, Escape handling и возвращает focus к trigger.
+- Mobile menu удерживает Tab и Shift+Tab внутри открытого меню и возвращает focus к trigger при закрытии или навигации.
 - Selectors используют `aria-pressed`.
 - Есть общие `:focus-visible` стили.
 - `MotionConfig reducedMotion="user"` используется.
@@ -68,10 +69,7 @@ SEO следует считать в основном закрытым пунк�
 ### P2
 
 - **Hero video:** ресурс около 11.5 MB остаётся главным media/performance-рискoм; возможна дальнейшая оптимизация без ухудшения desktop-опыта.
-- **Mobile menu:** требуется полноценный focus trap внутри открытого меню; текущие Escape handling и возврат focus уже реализованы.
-- **Partners modal:** нужна дополнительная keyboard/focus-проверка всех состояний модального окна.
 - **WCAG contrast:** провести отдельную проверку контраста вторичного текста.
-- **Transitive PostCSS vulnerabilities:** `npm audit --omit=dev` сообщает 1 high и 1 moderate advisory в транзитивном PostCSS. Автоматическое исправление предлагает breaking-переход на Next.js 16; обновлять дополнительные пакеты без отдельной оценки не следует.
 - **HSTS preload:** пересмотреть только после подтверждения, что все необходимые поддомены проекта работают исключительно через HTTPS.
 
 ### P3
@@ -84,7 +82,7 @@ SEO следует считать в основном закрытым пунк�
 | --- | --- | --- | --- | --- | --- |
 | `/` | PASS | PASS | PASS | PASS | READY |
 | `/clubs` | PASS | PASS | PASS | PASS | READY |
-| `/partners` | PASS | PASS | PASS | PASS* | READY |
+| `/partners` | PASS | PASS | PASS | PASS | READY |
 | `/pricing` | PASS | PASS* | PASS | PASS | READY |
 | `/games` | PASS | PASS | PASS | PASS | READY |
 | `/promos` | PASS | PASS | PASS | PASS | READY |
@@ -93,20 +91,20 @@ SEO следует считать в основном закрытым пунк�
 | `/specs` | PASS | PASS | PASS | PASS | READY |
 | `/terms` | PASS | PASS | PASS | PASS | READY |
 
-`PASS*` означает оставшуюся точечную проверку polish: keyboard/focus для partners modal и естественный горизонтальный scroll pricing-таблицы на узких экранах.
+`PASS*` означает оставшуюся точечную проверку polish: естественный горизонтальный scroll pricing-таблицы на узких экранах.
 
 ## 6. Security
 
 ### Dependencies
 
-- Next.js: `15.5.25`.
-- `eslint-config-next`: `15.5.25`.
+- Next.js: `16.3.4`.
+- `eslint-config-next`: `16.3.4`.
 - React major/minor не изменялись.
-- Production audit после обновления всё ещё показывает транзитивные PostCSS findings: 1 high и 1 moderate. Исправление через `npm audit fix --force` требует Next.js 16 и в этой фазе не применялось.
+- `npm audit --omit=dev` чистый: 0 vulnerabilities.
 
 ### Headers и CSP
 
-Текущий middleware отдаёт:
+Текущий `proxy.ts` отдаёт:
 
 - `X-Frame-Options: DENY`
 - `X-Content-Type-Options: nosniff`
@@ -115,7 +113,7 @@ SEO следует считать в основном закрытым пунк�
 - `Referrer-Policy: strict-origin-when-cross-origin`
 - `Permissions-Policy: camera=(), microphone=(), geolocation=()`
 
-CSP включает `default-src 'self'`, `script-src 'self' 'unsafe-inline'`, `style-src 'self' 'unsafe-inline'`, `img-src 'self' data: https:`, `font-src 'self' data:`, `connect-src 'self'`, `frame-ancestors 'none'`, `base-uri 'self'` и `form-action 'self'`. `unsafe-eval` удалён. `unsafe-inline` оставлен из-за текущего Next.js/inline-style/runtime поведения. HSTS с `preload` требует отдельной проверки subdomain assumptions.
+CSP включает `default-src 'self'`, `script-src 'self' 'unsafe-inline'`, `style-src 'self' 'unsafe-inline'`, `img-src 'self' data: https:`, `font-src 'self' data:`, `connect-src 'self'`, `frame-ancestors 'none'`, `base-uri 'self'` и `form-action 'self'`. `unsafe-eval` удалён. `unsafe-inline` оставлен из-за текущего Next.js/inline-style/runtime поведения. HSTS с `preload` сохранён; его уместно пересмотреть только после подтверждения subdomain assumptions.
 
 ## 7. Performance
 
@@ -123,7 +121,7 @@ CSP включает `default-src 'self'`, `script-src 'self' 'unsafe-inline'`, 
 - На мобильных viewport desktop video не должно загружаться.
 - Изображения обслуживаются через Next.js image strategy с WebP/AVIF.
 - Включены compression и `minimumCacheTTL: 60`.
-- Client/server boundaries уже частично/существенно оптимизированы; утверждение о том, что большинство статичных страниц остаются client components, больше не является актуальным baseline.
+- Client/server boundaries уже частично/существенно оптимизированы; отдельные интерактивные острова сохранены там, где они нужны.
 - Главный оставшийся performance P2 — дальнейшая media optimization hero video.
 
 ## 8. SEO
@@ -139,26 +137,21 @@ SEO закрыт на базовом production-уровне. Дальнейше
 
 ## 9. Accessibility
 
-Закрытые базовые пункты: ARIA-состояния mobile menu и selectors, Escape handling, возврат focus к trigger, `:focus-visible`, reduced-motion configuration.
+Закрытые базовые пункты: ARIA-состояния mobile menu и selectors, Escape handling, focus trap и возврат focus к trigger, `:focus-visible`, reduced-motion configuration. Partners modal также использует focus trap, Escape и возврат focus к trigger.
 
 Остаются:
 
-- полноценный focus trap мобильного меню;
-- дополнительная keyboard/focus-проверка partners modal;
 - отдельная проверка контраста вторичного текста по WCAG.
 
 ## 10. Recommended Roadmap
 
 ### Phase 3A — remaining security/audit cleanup
 
-1. Отдельно оценить транзитивные PostCSS advisory без перехода на Next.js 16.
-2. Подтвердить, что все необходимые subdomains совместимы с HSTS preload.
+1. Подтвердить, что все необходимые subdomains совместимы с HSTS preload.
 
 ### Phase 3B — accessibility polish
 
-1. Добавить полноценный focus trap мобильного меню.
-2. Выполнить keyboard/focus-регрессию partners modal.
-3. Провести контрастную проверку вторичного текста.
+1. Провести контрастную проверку вторичного текста.
 
 ### Phase 3C — media/performance polish
 

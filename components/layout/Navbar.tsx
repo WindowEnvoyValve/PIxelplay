@@ -34,6 +34,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileNavigationRef = useRef<HTMLElement>(null);
   const firstMenuLinkRef = useRef<HTMLAnchorElement>(null);
   const toggleMobileMenu = () => setMobileMenuOpen((v) => !v);
   const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
@@ -60,6 +61,29 @@ export function Navbar() {
       if (event.key === "Escape") {
         closeMobileMenu();
         menuButtonRef.current?.focus();
+        return;
+      }
+      if (event.key !== "Tab" || !mobileNavigationRef.current) {
+        return;
+      }
+
+      const focusable = Array.from(
+        mobileNavigationRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      if (focusable.length === 0) {
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
     };
     const previousOverflow = document.body.style.overflow;
@@ -141,6 +165,7 @@ export function Navbar() {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.nav
+              ref={mobileNavigationRef}
               id="mobile-navigation"
               aria-label="Мобильная навигация"
               initial={{ opacity: 0, height: 0 }}
@@ -160,7 +185,10 @@ export function Navbar() {
                       <Link
                         ref={i === 0 ? firstMenuLinkRef : undefined}
                         href={item.href}
-                        onClick={closeMobileMenu}
+                        onClick={() => {
+                          closeMobileMenu();
+                          menuButtonRef.current?.focus();
+                        }}
                         className="group relative block px-3 py-4 text-center"
                       >
                         {/* Пульсирующее свечение фона */}
