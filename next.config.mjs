@@ -10,6 +10,15 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["framer-motion"],
   },
+  async redirects() {
+    return [
+      {
+        source: "/hardware",
+        destination: "/specs",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
