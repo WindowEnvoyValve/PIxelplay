@@ -1,14 +1,10 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Image from "next/image";
-import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
 import { SOCIAL_LINKS } from "@/lib/site-config";
 
 export default function PromosPage() {
   return (
     <main className="mx-auto max-w-7xl px-6 pb-24 pt-32 md:px-10">
-      <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-14">
+      <div className="page-reveal mb-14">
         <p className="mb-3 text-xs uppercase tracking-[0.4em] text-brand">Акции</p>
         <h1 className="font-display text-4xl font-black text-white md:text-5xl">
           ВЫГОДНО <span className="text-gradient-brand">ИГРАТЬ</span>
@@ -16,17 +12,11 @@ export default function PromosPage() {
         <p className="mt-4 max-w-2xl text-white/50">
           Скидки, бонусы и специальные предложения для игроков PIXEL.
         </p>
-      </motion.div>
+      </div>
 
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-60px" }}
-        className="grid gap-6 lg:grid-cols-2"
-      >
+      <div className="grid gap-6 lg:grid-cols-2">
         {/* Приложение LANGAME */}
-        <motion.div variants={staggerItem} {...cardHover} className="cyber-panel flex flex-col p-8 lg:col-span-2">
+        <div className="page-reveal cyber-panel flex flex-col p-8 transition-transform duration-300 hover:-translate-y-1 lg:col-span-2">
           <div className="flex flex-wrap items-start justify-between gap-6">
             <div className="max-w-xl">
               <p className="text-4xl">📱</p>
@@ -78,10 +68,10 @@ export default function PromosPage() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* День рождения */}
-        <motion.div variants={staggerItem} {...cardHover} className="cyber-panel flex flex-col p-8">
+        <div className="page-reveal page-reveal-delay-1 cyber-panel flex flex-col p-8 transition-transform duration-300 hover:-translate-y-1">
           <div className="flex items-center justify-between">
             <p className="text-4xl">🎂</p>
             <span className="font-display text-xl font-black text-brand">15 бонусов</span>
@@ -106,10 +96,10 @@ export default function PromosPage() {
           <p className="mt-5 border-t border-white/5 pt-3 text-[11px] leading-relaxed text-white/30">
             * подарок доступен всем участникам LETS PLAY 🎮 начиная с 1-го уровня (rookie: 30 часов и выше)
           </p>
-        </motion.div>
+        </div>
 
         {/* Регистрация */}
-        <motion.div variants={staggerItem} {...cardHover} className="cyber-panel flex flex-col p-8">
+        <div className="page-reveal page-reveal-delay-2 cyber-panel flex flex-col p-8 transition-transform duration-300 hover:-translate-y-1">
           <div className="flex items-center justify-between">
             <p className="text-4xl">🎁</p>
             <span className="font-display text-xl font-black text-brand">10 бонусов</span>
@@ -140,10 +130,10 @@ export default function PromosPage() {
           >
             Зарегистрироваться
           </a>
-        </motion.div>
+        </div>
 
         {/* Ночные катки */}
-        <motion.div variants={staggerItem} {...cardHover} className="cyber-panel flex flex-col p-8">
+        <div className="page-reveal page-reveal-delay-3 cyber-panel flex flex-col p-8 transition-transform duration-300 hover:-translate-y-1">
           <div className="flex items-center justify-between">
             <p className="text-4xl">🌙</p>
             <span className="font-display text-xl font-black text-brand">20 бонусов</span>
@@ -165,10 +155,10 @@ export default function PromosPage() {
               </li>
             ))}
           </ul>
-        </motion.div>
+        </div>
 
         {/* Такси */}
-        <motion.div variants={staggerItem} {...cardHover} className="cyber-panel flex flex-col p-8">
+        <div className="page-reveal page-reveal-delay-4 cyber-panel flex flex-col p-8 transition-transform duration-300 hover:-translate-y-1">
           <div className="flex items-center justify-between">
             <p className="text-4xl">🚕</p>
             <span className="font-display text-xl font-black text-brand">до 10 рублей</span>
@@ -190,8 +180,8 @@ export default function PromosPage() {
               </li>
             ))}
           </ul>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </main>
   );
 }

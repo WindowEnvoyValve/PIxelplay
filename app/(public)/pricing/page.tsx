@@ -1,7 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { fadeUp } from "@/lib/animations";
 import { getHourlyPricing, PRICING_ROWS, type PricingTariff } from "@/lib/site-data";
 
 const TARIFFS: PricingTariff[] = ["STANDART", "STANDART+", "VIP/TRIO", "DUO", "PS5"];
@@ -12,7 +8,7 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-transparent pt-24 pb-16">
       <div className="mx-auto max-w-5xl px-4 md:px-8">
-        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-10 text-center">
+        <div className="page-reveal mb-10 text-center">
           <p className="mb-3 text-xs uppercase tracking-[0.4em] text-brand">Тарифы</p>
           <h1 className="text-4xl font-bold text-white md:text-5xl">
             Наши <span className="text-gradient-brand">Цены</span>
@@ -20,15 +16,9 @@ export default function PricingPage() {
           <p className="mx-auto mt-4 max-w-2xl text-white/60">
             Единый прайс для всех клубов PIXEL. Цены указаны в BYN.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          transition={{ delay: 0.15 }}
-          className="relative -mt-16 overflow-hidden rounded-2xl border border-white/15 bg-[#0d0d12]/90 p-2 shadow-[0_8px_40px_rgba(0,0,0,0.5)] backdrop-blur-sm md:p-6"
-        >
+        <div className="page-reveal page-reveal-delay-1 relative -mt-16 overflow-hidden rounded-2xl border border-white/15 bg-[#0d0d12]/90 p-2 shadow-[0_8px_40px_rgba(0,0,0,0.5)] backdrop-blur-sm md:p-6">
           <div className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-brand/10 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-brand/10 blur-3xl" />
 
@@ -89,9 +79,9 @@ export default function PricingPage() {
               </tbody>
             </table>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.25 }} className="mt-6 grid gap-3 text-sm text-white/50 md:grid-cols-2">
+        <div className="page-reveal page-reveal-delay-2 mt-6 grid gap-3 text-sm text-white/50 md:grid-cols-2">
           <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
             <span className="text-brand">Дневной тариф:</span> с 8:00 до 15:00{" "}
             <span className="text-white/40">(остаток времени сгорает)</span>
@@ -99,7 +89,7 @@ export default function PricingPage() {
           <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
             Несгораемые пакеты действуют только при наличии <span className="text-white/80">личного кабинета</span>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

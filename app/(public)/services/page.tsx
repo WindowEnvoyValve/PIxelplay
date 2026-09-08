@@ -1,7 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
 import { SOCIAL_LINKS } from "@/lib/site-config";
 
 const SERVICES = [
@@ -46,7 +42,7 @@ const SERVICES = [
 export default function ServicesPage() {
   return (
     <main className="mx-auto max-w-7xl px-6 pb-24 pt-32 md:px-10">
-      <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-14">
+      <div className="page-reveal mb-14">
         <p className="mb-3 text-xs uppercase tracking-[0.4em] text-brand">Услуги</p>
         <h1 className="font-display text-4xl font-black text-white md:text-5xl">
           БОЛЬШЕ, ЧЕМ <span className="text-gradient-brand">ИГРА</span>
@@ -55,22 +51,13 @@ export default function ServicesPage() {
           Дни рождения, корпоративы и турниры под ключ. Нажми «Узнать подробнее» —
           админ ответит в чате сразу.
         </p>
-      </motion.div>
+      </div>
 
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-60px" }}
-        className="grid gap-6 lg:grid-cols-3"
-      >
-        {SERVICES.map((s, i) => (
-          <motion.div
+      <div className="grid gap-6 lg:grid-cols-3">
+        {SERVICES.map((s) => (
+          <div
             key={s.title}
-            variants={staggerItem}
-            custom={i}
-            {...cardHover}
-            className="cyber-panel flex flex-col p-8"
+            className="page-reveal cyber-panel flex flex-col p-8 transition-transform duration-300 hover:-translate-y-1"
           >
             <span className="text-5xl">{s.icon}</span>
             <h2 className="mt-5 font-display text-xl font-black text-white">{s.title}</h2>
@@ -94,9 +81,9 @@ export default function ServicesPage() {
             >
               Узнать подробнее
             </a>
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
     </main>
   );
 }

@@ -1,8 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { CLUBS, type ClubZone } from "@/lib/site-data";
-import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
 
 function ZoneCard({ zone }: { zone: ClubZone }) {
   const { specs } = zone;
@@ -17,7 +13,7 @@ function ZoneCard({ zone }: { zone: ClubZone }) {
   ];
 
   return (
-    <motion.div variants={staggerItem} {...cardHover} className="relative flex flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#0d0d12]/90 p-6 shadow-[0_8px_40px_rgba(0,0,0,0.5)] backdrop-blur-sm">
+    <div className="page-reveal relative flex flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#0d0d12]/90 p-6 shadow-[0_8px_40px_rgba(0,0,0,0.5)] backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1">
       <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-brand/10 blur-3xl" />
       <div className="relative flex items-center justify-between gap-3">
         <h4 className="font-display text-lg font-bold uppercase tracking-[0.15em] text-white">{zone.name}</h4>
@@ -34,14 +30,14 @@ function ZoneCard({ zone }: { zone: ClubZone }) {
           </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 export default function SpecsPage() {
   return (
     <main className="mx-auto max-w-7xl px-6 pb-24 pt-32 md:px-10">
-      <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-14 text-center">
+      <div className="page-reveal mb-14 text-center">
         <p className="mb-3 text-xs uppercase tracking-[0.4em] text-brand">Спецификации</p>
         <h1 className="font-display text-4xl font-black text-white md:text-5xl">
           ЖЕЛЕЗО ПО <span className="text-gradient-brand">КЛУБАМ</span>
@@ -49,11 +45,11 @@ export default function SpecsPage() {
         <p className="mx-auto mt-4 max-w-2xl text-white/50">
           Характеристики залов каждого клуба сети PIXEL — выбери формат под свой стиль игры.
         </p>
-      </motion.div>
+      </div>
 
       <div className="space-y-16">
         {CLUBS.map((club) => (
-          <motion.section key={club.id} variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }}>
+          <section key={club.id} className="page-reveal">
             <div className="mb-6 flex items-center gap-4">
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-brand/40 to-brand/40" />
               <h2 className="font-display text-2xl font-black uppercase tracking-[0.2em] text-white md:text-3xl">{club.name}</h2>
@@ -62,7 +58,7 @@ export default function SpecsPage() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {club.zones.map((zone) => <ZoneCard key={zone.id} zone={zone} />)}
             </div>
-          </motion.section>
+          </section>
         ))}
       </div>
     </main>

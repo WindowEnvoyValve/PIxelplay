@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { SITE_STATS } from "@/lib/site-data";
 import { SOCIAL_LINKS } from "@/lib/site-config";
 
@@ -24,41 +21,29 @@ export default function RulesPage() {
   return (
     <main className="mx-auto max-w-4xl px-6 pb-24 pt-32 md:px-10">
       {/* Заголовок */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mb-10 text-center"
-      >
+      <div className="page-reveal mb-10 text-center">
         <p className="mb-3 text-xs uppercase tracking-[0.4em] text-brand">Информация</p>
         <h1 className="font-display text-4xl font-black text-white md:text-5xl">
           ПРАВИЛА <span className="text-gradient-brand">PIXEL</span>
         </h1>
-      </motion.div>
+      </div>
 
       {/* Контент */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35 }}
-      >
+      <div className="page-reveal page-reveal-delay-1">
         <div className="space-y-3">
-          {RULES_CLUB.map((rule, i) => (
-            <motion.div
-              key={rule.title}
-              initial={{ opacity: 0, x: -12 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.04, duration: 0.3 }}
-              className="rounded-xl border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-brand/30 hover:bg-brand/[0.04]"
+          {RULES_CLUB.map((rule) => (
+          <div
+            key={rule.title}
+            className="rounded-xl border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-brand/30 hover:bg-brand/[0.04]"
             >
               <h3 className="mb-1 font-display text-sm font-bold uppercase tracking-[0.15em] text-brand">
                 {rule.title}
               </h3>
               <p className="text-sm leading-relaxed text-white/60">{rule.text}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* Подвал */}
       <div className="mt-12 text-center">
