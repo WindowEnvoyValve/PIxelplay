@@ -15,6 +15,11 @@ export const metadata: Metadata = {
     url: `${siteUrl}/tournaments`,
     type: "website",
   },
+  twitter: {
+    card: "summary",
+    title: "Турниры | PIXEL",
+    description: "Турниры и киберспортивные события в компьютерных клубах PIXEL.",
+  },
 };
 
 export default function TournamentsPage() {

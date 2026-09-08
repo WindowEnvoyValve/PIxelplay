@@ -7,6 +7,15 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  async redirects() {
+    return [
+      {
+        source: "/hardware",
+        destination: "/specs",
+        permanent: true,
+      },
+    ];
+  },
   experimental: {
     optimizePackageImports: ["framer-motion"],
   },

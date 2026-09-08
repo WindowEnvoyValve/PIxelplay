@@ -12,6 +12,7 @@ const routes = [
   "/services",
   "/specs",
   "/partners",
+  "/tournaments",
   "/terms",
   "/tournaments",
 ];
