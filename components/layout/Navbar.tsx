@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import { Logo } from "@/components/ui/Logo";
 
 const NAV_ITEMS = [
@@ -88,7 +89,7 @@ export function Navbar() {
                   title={s.label}
                   className={`flex h-8 w-8 items-center justify-center transition-all group ${s.hover}`}
                 >
-                  <img src={`/${s.file}.svg`} alt={s.label} className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />
+                  <Image src={`/${s.file}.svg`} alt={s.label} width={20} height={20} className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />
                 </a>
               ))}
             </div>
@@ -203,9 +204,11 @@ export function Navbar() {
                         aria-label={s.label}
                         className={`flex h-9 w-9 items-center justify-center transition-colors group ${s.hover}`}
                       >
-                        <img
+                        <Image
                           src={`/${s.file}.svg`}
                           alt={s.label}
+                          width={20}
+                          height={20}
                           className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100"
                         />
                       </a>

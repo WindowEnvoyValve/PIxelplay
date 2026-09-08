@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
 
 export default function PromosPage() {
@@ -53,9 +54,11 @@ export default function PromosPage() {
             </div>
             <div className="flex flex-col items-center gap-6">
               {/* Скриншот приложения (без белого фона) */}
-              <img
+              <Image
                 src="/langame.png"
                 alt="Приложение LANGAME"
+                width={776}
+                height={1024}
                 className="hidden w-64 lg:block xl:w-72"
               />
               <div className="flex flex-col items-center gap-3">

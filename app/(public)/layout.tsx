@@ -2,8 +2,26 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "PIXEL",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://pixelplay.by",
+    logo: `${process.env.NEXT_PUBLIC_SITE_URL || "https://pixelplay.by"}/logo.png`,
+    sameAs: [
+      "https://www.instagram.com/pixelplay_mogilev",
+      "https://www.tiktok.com/@pixelplay_mogilev",
+      "https://t.me/pixelplay_mogilev",
+      "https://www.youtube.com/@PixelPlayClub",
+    ],
+  };
+
   return (
     <div className="relative flex min-h-screen flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
       {/* Фоновые слои: градиент + сетка + свечения (белый/оранжевый/синий) */}
       <div className="pointer-events-none fixed inset-0 -z-10">
         {/* Базовый градиент: тёмно-синий по краям, тёплый к центру */}

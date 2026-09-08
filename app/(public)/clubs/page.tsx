@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { CLUBS, clubStatusLabel, getClubBySlug, totalPcCount } from "@/lib/site-data";
 import { fadeUp, staggerItem } from "@/lib/animations";
 
@@ -23,6 +24,8 @@ export default function ClubsPage() {
         muted
         loop
         playsInline
+        preload="metadata"
+        poster="/club-play.jpg"
         aria-hidden="true"
         className="fixed inset-0 -z-10 h-full w-full object-cover opacity-70"
       >
@@ -63,11 +66,13 @@ export default function ClubsPage() {
               }`}
             >
               {/* Фото клуба */}
-              <div className="mb-4 overflow-hidden rounded-lg border border-white/10 group">
-                <img
+              <div className="relative mb-4 h-48 overflow-hidden rounded-lg border border-white/10 group">
+                <Image
                   src={club.images.club}
                   alt={club.name}
-                  className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
 
@@ -219,10 +224,13 @@ export default function ClubsPage() {
 
         {/* Изображение схемы зала */}
         <div className="cyber-panel overflow-hidden">
-          <img
+          <Image
             src={active.images.hall}
             alt={`Схема зала ${active.name}`}
-            className="w-full object-contain"
+            width={1024}
+            height={878}
+            sizes="(max-width: 1024px) 100vw, 1024px"
+            className="h-auto w-full object-contain"
           />
         </div>
       </motion.div>

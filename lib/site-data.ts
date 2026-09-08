@@ -418,6 +418,10 @@ export function getLowestClubPrice(club: Club): number {
   return Math.min(...club.zones.map((zone) => zone.pricePerHour));
 }
 
+export function getMaxRefreshRate(clubs: Club[] = CLUBS): number {
+  return Math.max(...clubs.flatMap((club) => club.zones.map((zone) => zone.specs.refreshRate)));
+}
+
 export function clubStatusLabel(status: ClubStatus): string {
   if (status === "open") return "Открыто";
   if (status === "temporarily_closed") return "Временно закрыто";

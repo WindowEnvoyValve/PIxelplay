@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
-import { CLUBS, SITE_STATS, clubStatusLabel, getLowestClubPrice, totalNetworkPcCount, totalPcCount } from "@/lib/site-data";
+import { CLUBS, SITE_STATS, clubStatusLabel, getLowestClubPrice, getMaxRefreshRate, totalNetworkPcCount, totalPcCount } from "@/lib/site-data";
 
 export default function HomePage() {
+  const maxRefreshRate = getMaxRefreshRate(CLUBS);
+
   return (
     <main className="relative overflow-hidden">
       {/* Видео-фон */}
@@ -14,6 +16,8 @@ export default function HomePage() {
         muted
         loop
         playsInline
+        preload="metadata"
+        poster="/club-play.jpg"
         aria-hidden="true"
         className="fixed inset-0 -z-10 h-full w-full object-cover opacity-70"
       >
@@ -44,7 +48,7 @@ export default function HomePage() {
         </motion.h1>
 
         <motion.p variants={staggerItem} className="mt-8 max-w-xl text-white/60">
-          Атмосферные киберпространства в Могилеве. RTX 40/50, мониторы до 540Hz,
+          Атмосферные киберпространства в Могилеве. RTX 40/50, мониторы до {maxRefreshRate} Hz,
           программа лояльности LETS PLAY с кешбэком до 25% и живые турниры.
         </motion.p>
 
@@ -139,7 +143,7 @@ export default function HomePage() {
         >
           {[
             { value: `${totalNetworkPcCount(CLUBS)}+`, label: "игровых ПК" },
-            { value: `${Math.max(...CLUBS.flatMap((club) => club.zones.map((zone) => zone.specs.refreshRate)))}Hz`, label: "мониторы в VIP" },
+            { value: `${maxRefreshRate}Hz`, label: "мониторы в VIP" },
             { value: SITE_STATS.cashbackLegend, label: "кешбэк Legend" },
             { value: SITE_STATS.networkHours, label: "ОТКРЫТЫ" },
           ].map((stat) => (

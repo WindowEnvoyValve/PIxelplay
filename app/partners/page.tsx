@@ -3,28 +3,29 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { Logo } from "@/components/ui/Logo";
 
 const SOCIALS = [
   {
     label: "Instagram",
     href: "https://www.instagram.com/pixelplay_mogilev",
-    icon: <img src="/instagram.svg" alt="Instagram" className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />,
+    icon: <Image src="/instagram.svg" alt="Instagram" width={20} height={20} className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />,
   },
   {
     label: "TikTok",
     href: "https://www.tiktok.com/@pixelplay_mogilev",
-    icon: <img src="/tiktok.svg" alt="TikTok" className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />,
+    icon: <Image src="/tiktok.svg" alt="TikTok" width={20} height={20} className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />,
   },
   {
     label: "Telegram",
     href: "https://t.me/pixelplay_mogilev",
-    icon: <img src="/telegram.svg" alt="Telegram" className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />,
+    icon: <Image src="/telegram.svg" alt="Telegram" width={20} height={20} className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />,
   },
   {
     label: "YouTube",
     href: "https://www.youtube.com/@PixelPlayClub",
-    icon: <img src="/youtube.svg" alt="YouTube" className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />,
+    icon: <Image src="/youtube.svg" alt="YouTube" width={20} height={20} className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />,
   },
 ];
 
@@ -508,9 +509,11 @@ export default function PartnersPage() {
                       rel="noopener noreferrer"
                       className="relative flex h-52 w-full overflow-hidden rounded-xl bg-black border border-white/10 transition-all duration-500 group-hover:border-brand/40 group-hover:shadow-[0_0_35px_rgba(255,106,0,0.15)]"
                     >
-                      <img
+                      <Image
                         src={p.img}
                         alt={p.name}
+                        fill
+                        sizes="(max-width: 768px) 50vw, (max-width: 1280px) 16vw, 240px"
                         className="h-full w-full object-contain transition-all duration-500 group-hover:scale-105 group-hover:brightness-110"
                       />
                     </motion.a>
@@ -548,9 +551,11 @@ export default function PartnersPage() {
                     </p>
                   </div>
                   <div className="flex justify-center md:justify-end">
-                    <img
+                    <Image
                       src="/PixelPart.png"
                       alt="Pixel Partnership"
+                      width={1024}
+                      height={1024}
                       className="h-full max-h-[480px] w-full max-w-md rounded-xl object-contain"
                     />
                   </div>
@@ -570,9 +575,12 @@ export default function PartnersPage() {
               className="mx-auto max-w-4xl"
             >
               <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-8 md:p-12">
-                <img
+                <Image
                   src="/BGA.jpg"
                   alt="The Belarusian Gaming Awards"
+                  width={1200}
+                  height={768}
+                  sizes="(max-width: 896px) 100vw, 896px"
                   className="mb-8 w-full rounded-xl object-cover"
                 />
                 <h1 className="text-2xl font-bold text-white md:text-3xl">
