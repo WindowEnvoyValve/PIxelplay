@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import Image from "next/image";
 import { Logo } from "@/components/ui/Logo";
 
@@ -374,6 +374,51 @@ export default function PartnersPage() {
   const [showModal, setShowModal] = useState(false);
   const [caseSlide, setCaseSlide] = useState(0);
   const [activeCase, setActiveCase] = useState(0);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const modalTriggerRef = useRef<HTMLElement | null>(null);
+  const closeModal = useCallback(() => {
+    setShowModal(false);
+    window.setTimeout(() => modalTriggerRef.current?.focus(), 0);
+  }, []);
+  const openModal = useCallback((event: React.MouseEvent<HTMLElement>) => {
+    modalTriggerRef.current = event.currentTarget;
+    setShowModal(true);
+  }, []);
+
+  useEffect(() => {
+    if (!showModal) return;
+
+    modalRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeModal();
+        return;
+      }
+      if (event.key !== "Tab" || !modalRef.current) return;
+      const focusable = Array.from(
+        modalRef.current.querySelectorAll<HTMLElement>(
+          'button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [showModal, closeModal]);
 
   const filteredServices =
     filter === "Все"
@@ -381,6 +426,7 @@ export default function PartnersPage() {
       : SERVICES.filter((s) => s.category === filter);
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="relative min-h-screen">
       {/* Фоновые слои: градиент + сетка + свечения (белый/оранжевый/синий) */}
       <div className="pointer-events-none fixed inset-0 -z-10">
@@ -407,11 +453,15 @@ export default function PartnersPage() {
           <Logo size={120} href="/" className="shrink-0" />
 
           {/* Табы — по центру, в уровень с логотипом */}
-          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 lg:flex">
+          <nav aria-label="Разделы партнёрства" role="tablist" className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 lg:flex">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
+                type="button"
                 onClick={() => setActiveTab(tab.id)}
+                role="tab"
+                aria-selected={activeTab === tab.id}
+                aria-controls={`partner-panel-${tab.id}`}
                 className={`relative overflow-hidden whitespace-nowrap rounded-md border px-3 py-2 text-xs uppercase tracking-[0.15em] transition-all ${
                   activeTab === tab.id
                     ? "border-brand/70 bg-gradient-to-b from-brand/40 to-brand/15 text-brand shadow-[0_0_16px_rgba(255,106,0,0.35)]"
@@ -456,11 +506,15 @@ export default function PartnersPage() {
       {/* Контент */}
       <div className="mx-auto max-w-7xl px-4 pb-16 pt-28 md:px-8">
         {/* Табы для узких экранов */}
-        <div className="mb-10 flex flex-wrap gap-2 lg:hidden">
+        <div aria-label="Разделы партнёрства" role="tablist" className="mb-10 flex flex-wrap gap-2 lg:hidden">
           {TABS.map((tab) => (
             <button
               key={tab.id}
+              type="button"
               onClick={() => setActiveTab(tab.id)}
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`partner-panel-${tab.id}`}
               className={`relative overflow-hidden rounded-md border px-4 py-2 text-sm uppercase tracking-[0.15em] transition-all ${
                 activeTab === tab.id
                   ? "border-brand/70 bg-gradient-to-b from-brand/40 to-brand/15 text-brand shadow-[0_0_16px_rgba(255,106,0,0.35)]"
@@ -477,6 +531,8 @@ export default function PartnersPage() {
           {/* === НАШИ ПАРТНЁРЫ === */}
           {activeTab === "partners" && (
             <motion.div
+              id="partner-panel-partners"
+              role="tabpanel"
               key="partners"
               variants={brandVariant}
               initial="hidden"
@@ -499,6 +555,8 @@ export default function PartnersPage() {
               <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-6">
                 {PARTNERS.map((p, i) => (
                   <motion.div
+                    id="partner-panel-award"
+                    role="tabpanel"
                     key={i}
                     className="group flex flex-col items-center gap-3"
                     whileHover={{ scale: 1.05 }}
@@ -527,6 +585,8 @@ export default function PartnersPage() {
 
               {/* PIXEL ДЛЯ ВАШЕГО БРЕНДА */}
               <motion.div
+                id="partner-panel-services"
+                role="tabpanel"
                 variants={brandVariant}
                 className="mt-12 rounded-2xl border border-white/10 bg-white/[0.02] p-8 md:p-12"
               >
@@ -567,6 +627,8 @@ export default function PartnersPage() {
           {/* === НАГРАДА BGA === */}
           {activeTab === "award" && (
             <motion.div
+              id="partner-panel-cases"
+              role="tabpanel"
               key="award"
               variants={brandVariant}
               initial="hidden"
@@ -609,6 +671,8 @@ export default function PartnersPage() {
           {/* === УСЛУГИ === */}
           {activeTab === "services" && (
             <motion.div
+              id="partner-panel-contacts"
+              role="tabpanel"
               key="services"
               variants={brandVariant}
               initial="hidden"
@@ -620,7 +684,9 @@ export default function PartnersPage() {
                 {CATEGORY_FILTERS.map((cat) => (
                   <button
                     key={cat}
+                    type="button"
                     onClick={() => setFilter(cat)}
+                    aria-pressed={filter === cat}
                     className={`rounded-md px-3 py-1.5 text-xs uppercase tracking-[0.15em] transition-all ${
                       filter === cat
                         ? "bg-brand/30 text-brand shadow-[0_0_10px_rgba(255,106,0,0.25)]"
@@ -648,7 +714,8 @@ export default function PartnersPage() {
                     <h3 className="mb-1 text-lg font-semibold text-white">{s.title}</h3>
                     <p className="mb-4 text-sm text-white/50">{s.desc}</p>
                     <button
-                      onClick={() => setShowModal(true)}
+                      type="button"
+                      onClick={openModal}
                       className="w-full rounded-lg border border-brand/50 bg-brand/15 px-4 py-2 text-sm text-brand transition-all hover:bg-brand hover:text-white"
                     >
                       Оставить заявку
@@ -674,7 +741,9 @@ export default function PartnersPage() {
                 {CASES.map((c, i) => (
                   <button
                     key={i}
+                    type="button"
                     onClick={() => { setActiveCase(i); setCaseSlide(0); }}
+                    aria-pressed={activeCase === i}
                     className={`rounded-xl border p-4 text-left text-sm font-semibold transition-all ${
                       activeCase === i
                         ? "border-brand/60 bg-brand/15 text-brand shadow-[0_0_16px_rgba(255,106,0,0.2)]"
@@ -739,7 +808,7 @@ export default function PartnersPage() {
                 <p className="mx-auto mt-3 max-w-xl text-white/60">
                   Организуем турнир, мероприятие или интеграцию бренда под ваши задачи.
                 </p>
-                <button onClick={() => setShowModal(true)} className="cyber-button mt-6 !px-8 !py-3">
+                <button type="button" onClick={openModal} className="cyber-button mt-6 !px-8 !py-3">
                   Оставить заявку на партнёрство
                 </button>
               </div>
@@ -772,7 +841,8 @@ export default function PartnersPage() {
                     условия сотрудничества и подберём формат под ваш бренд.
                   </p>
                   <button
-                    onClick={() => setShowModal(true)}
+                    type="button"
+                    onClick={openModal}
                     className="cyber-button mt-8 !px-7 !py-3"
                   >
                     Оставить заявку
@@ -883,9 +953,14 @@ export default function PartnersPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm"
-              onClick={() => setShowModal(false)}
+              onClick={closeModal}
             />
             <motion.div
+              ref={modalRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="partnership-modal-title"
+              tabIndex={-1}
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -893,25 +968,28 @@ export default function PartnersPage() {
               onClick={(e) => e.stopPropagation()}
             >
               <button
-                onClick={() => setShowModal(false)}
+                type="button"
+                onClick={closeModal}
+                aria-label="Закрыть форму партнёрства"
                 className="absolute right-4 top-4 text-white/50 hover:text-white"
               >
                 ✕
               </button>
               <h3 className="mb-6 text-xl font-bold text-white">
-                Оставьте заявку на <span className="text-brand">Партнёрство</span>
+                <span id="partnership-modal-title">Оставьте заявку на <span className="text-brand">Партнёрство</span></span>
               </h3>
               <form
                 className="space-y-4"
                 onSubmit={(e) => {
                   e.preventDefault();
                   alert("Заявка отправлена!");
-                  setShowModal(false);
+                  closeModal();
                 }}
               >
                 <div>
-                  <label className="mb-1 block text-sm text-white/60">Имя</label>
+                  <label htmlFor="partner-name" className="mb-1 block text-sm text-white/60">Имя</label>
                   <input
+                    id="partner-name"
                     type="text"
                     required
                     className="w-full rounded-lg border border-white/10 bg-white/[0.05] px-4 py-2.5 text-white placeholder-white/30 outline-none focus:border-brand/50"
@@ -919,8 +997,9 @@ export default function PartnersPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm text-white/60">Почта</label>
+                  <label htmlFor="partner-company" className="mb-1 block text-sm text-white/60">Почта</label>
                   <input
+                    id="partner-company"
                     type="text"
                     required
                     className="w-full rounded-lg border border-white/10 bg-white/[0.05] px-4 py-2.5 text-white placeholder-white/30 outline-none focus:border-brand/50"
@@ -928,8 +1007,9 @@ export default function PartnersPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm text-white/60">Номер телефона</label>
+                  <label htmlFor="partner-phone" className="mb-1 block text-sm text-white/60">Номер телефона</label>
                   <input
+                    id="partner-phone"
                     type="tel"
                     required
                     className="w-full rounded-lg border border-white/10 bg-white/[0.05] px-4 py-2.5 text-white placeholder-white/30 outline-none focus:border-brand/50"
@@ -937,8 +1017,9 @@ export default function PartnersPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm text-white/60">Email</label>
+                  <label htmlFor="partner-email" className="mb-1 block text-sm text-white/60">Email</label>
                   <input
+                    id="partner-email"
                     type="email"
                     required
                     className="w-full rounded-lg border border-white/10 bg-white/[0.05] px-4 py-2.5 text-white placeholder-white/30 outline-none focus:border-brand/50"
@@ -963,5 +1044,6 @@ export default function PartnersPage() {
         )}
       </AnimatePresence>
     </div>
+    </MotionConfig>
   );
 }

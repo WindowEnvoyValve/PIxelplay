@@ -33,6 +33,9 @@ export default function PricingPage() {
           <div className="pointer-events-none absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-brand/10 blur-3xl" />
 
           <div className="relative overflow-x-auto">
+            <p className="mb-2 text-center text-xs text-white/50 md:hidden">
+              ← Проведите в сторону, чтобы увидеть все тарифы →
+            </p>
             <table className="w-full min-w-[640px] border-collapse text-center">
               <thead>
                 <tr>

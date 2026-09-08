@@ -131,7 +131,7 @@ export default function ClubsPage() {
               onClick={() => setActiveZone(zone.name)}
               type="button"
               aria-pressed={activeZone === zone.name}
-              className={`px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] transition-all ${
+              className={`min-h-11 px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] transition-all ${
                 activeZone === zone.name
                   ? "bg-brand text-white shadow-[0_0_16px_rgba(255,106,0,0.4)]"
                   : "border border-white/10 text-white/50 hover:border-brand/50 hover:text-white"

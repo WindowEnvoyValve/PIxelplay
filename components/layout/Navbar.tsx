@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import Image from "next/image";
 import { Logo } from "@/components/ui/Logo";
 
@@ -32,6 +32,8 @@ export function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const firstMenuLinkRef = useRef<HTMLAnchorElement>(null);
   const toggleMobileMenu = () => setMobileMenuOpen((v) => !v);
   const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
 
@@ -46,7 +48,30 @@ export function Navbar() {
     closeMobileMenu();
   }, [pathname, closeMobileMenu]);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) {
+      return;
+    }
+
+    firstMenuLinkRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeMobileMenu();
+        menuButtonRef.current?.focus();
+      }
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [mobileMenuOpen, closeMobileMenu]);
+
   return (
+    <MotionConfig reducedMotion="user">
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
@@ -105,6 +130,7 @@ export function Navbar() {
 
           <button
             type="button"
+            ref={menuButtonRef}
             onClick={toggleMobileMenu}
             className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
             aria-label="Меню"
@@ -138,6 +164,7 @@ export function Navbar() {
                       transition={{ delay: i * 0.05 }}
                     >
                       <Link
+                        ref={i === 0 ? firstMenuLinkRef : undefined}
                         href={item.href}
                         onClick={closeMobileMenu}
                         className="group relative block px-3 py-4 text-center"
@@ -230,5 +257,6 @@ export function Navbar() {
         </AnimatePresence>
       </header>
     </>
+    </MotionConfig>
   );
 }
