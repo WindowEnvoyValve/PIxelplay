@@ -51,7 +51,7 @@ export interface PricingRow {
   dayPrices?: Partial<Record<Exclude<PricingTariff, "PS5">, number>>;
 }
 
-const METRO_ADDRESS = "ул. Мигая 13";
+const METRO_ADDRESS = "пер. Мигая, 13";
 
 const STANDARD_DESCRIPTION =
   "Универсальный вариант на каждый день: комфортно, удобно, всё работает как надо. Самый популярный формат, когда нужен стабильный игровой опыт без сюрпризов.";

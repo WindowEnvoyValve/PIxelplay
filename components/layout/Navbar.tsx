@@ -119,14 +119,6 @@ export function Navbar() {
                 </a>
               ))}
             </div>
-            <a
-              href={SOCIAL_LINKS.telegram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cyber-button !px-5 !py-2.5"
-            >
-              Связаться
-            </a>
           </div>
 
           <button
@@ -242,15 +234,6 @@ export function Navbar() {
                       </a>
                     ))}
                   </div>
-                  <a
-                    href={SOCIAL_LINKS.telegram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={closeMobileMenu}
-                    className="cyber-button !px-5 !py-2.5"
-                  >
-                    Связаться
-                  </a>
                 </div>
               </div>
             </motion.nav>
