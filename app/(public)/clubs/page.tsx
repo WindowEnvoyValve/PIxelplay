@@ -2,38 +2,13 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { CLUBS } from "@/lib/site-data";
+import { CLUBS, clubStatusLabel, getClubBySlug, totalPcCount } from "@/lib/site-data";
 import { fadeUp, staggerItem } from "@/lib/animations";
-
-const CLUB_IMAGES: Record<string, string> = {
-  play: "/club-play.jpg",
-  centre: "/club-center.jpg",
-  metro: "/club-metro.jpg",
-};
-
-const HALL_IMAGES: Record<string, string> = {
-  play: "/hall-play.jpg",
-  centre: "/hall-center.jpg",
-  metro: "/hall-metro.jpg",
-};
-
-/** Цена за час по зонам (по официальному прайсу, 1 час) */
-const ZONE_PRICE_MAP: Record<string, number> = {
-  STANDART: 5,
-  "STANDART+": 6,
-  "VIP[1]": 7,
-  "VIP[2]": 7,
-  VIP: 7,
-  TRIO: 7,
-  DUO: 8,
-  MID: 5,
-  SPACE: 6,
-};
 
 export default function ClubsPage() {
   const [activeSlug, setActiveSlug] = useState(CLUBS[0].slug);
-  const [activeZone, setActiveZone] = useState<string>("STANDART");
-  const active = CLUBS.find((c) => c.slug === activeSlug)!;
+  const [activeZone, setActiveZone] = useState<string>(CLUBS[0].zones[0].name);
+  const active = getClubBySlug(activeSlug) ?? CLUBS[0];
 
   const activeZoneData = active.zones.find((z) => z.name === activeZone) ?? active.zones[0];
   const zonePrice = activeZoneData.pricePerHour;
@@ -85,7 +60,7 @@ export default function ClubsPage() {
               {/* Фото клуба */}
               <div className="mb-4 overflow-hidden rounded-lg border border-white/10 group">
                 <img
-                  src={CLUB_IMAGES[club.slug]}
+                  src={club.images.club}
                   alt={club.name}
                   className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -103,12 +78,12 @@ export default function ClubsPage() {
                   )}
                   <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">
                     <span className="h-1.5 w-1.5 animate-glow-pulse rounded-full bg-emerald-400" />
-                    Открыто
+                    {clubStatusLabel(club.status)}
                   </span>
                 </div>
               </div>
               <div className="mt-4 flex items-center justify-between border-t border-white/5 pt-3">
-                <span className="text-xs text-white/40">{club.zones.reduce((sum, z) => sum + z.pcCount, 0)} ПК в зале</span>
+                <span className="text-xs text-white/40">{totalPcCount(club)} ПК в зале</span>
               </div>
             </motion.button>
           );
@@ -168,7 +143,7 @@ export default function ClubsPage() {
               {/* Иконка зоны */}
               <div className="flex items-center gap-4">
                 <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center border-2 border-brand bg-brand/10">
-                  <span className="text-[10px] uppercase tracking-widest text-white/50">{zonePrice} руб</span>
+                  <span className="text-[10px] uppercase tracking-widest text-white/50">{zonePrice} BYN</span>
                 </div>
                 <div>
                   <p className="font-display text-xl font-bold text-white">Зона {activeZone}</p>
@@ -179,7 +154,8 @@ export default function ClubsPage() {
               <div className="grid flex-1 grid-cols-2 gap-x-6 gap-y-1.5 text-sm md:grid-cols-3">
                 <SpecRow label="Видеокарта" value={samplePc.gpu} />
                 <SpecRow label="Процессор" value={samplePc.cpu} />
-                <SpecRow label="Монитор" value={`${samplePc.monitor} · ${samplePc.refresh}Hz`} />
+                <SpecRow label="Монитор" value={`${samplePc.monitor} · ${samplePc.refreshRate}Hz`} />
+                <SpecRow label="ОЗУ" value={samplePc.ram} />
                 <SpecRow label="Кресло" value={samplePc.chair} />
                 <SpecRow label="Мышь" value={samplePc.mouse} />
                 <SpecRow label="Клавиатура" value={samplePc.keyboard} />
@@ -187,7 +163,7 @@ export default function ClubsPage() {
 
               {/* Цена */}
               <div className="text-right">
-                <p className="font-display text-2xl font-bold text-brand">{zonePrice} руб</p>
+                <p className="font-display text-2xl font-bold text-brand">{zonePrice} BYN</p>
                 <p className="text-xs text-white/40">за час · {zonePcCount} ПК</p>
                 <a
                   href="https://t.me/pixelplay_mogilev"
@@ -215,7 +191,7 @@ export default function ClubsPage() {
             >
               <div className="flex items-center justify-between">
                 <h4 className="font-display font-bold tracking-widest text-white">{zone.name}</h4>
-                <p className="font-display text-xl font-bold text-brand">{ZONE_PRICE_MAP[zone.name] ?? zone.pricePerHour} руб<span className="text-xs text-white/40">/час</span></p>
+                <p className="font-display text-xl font-bold text-brand">{zone.pricePerHour} BYN<span className="text-xs text-white/40">/час</span></p>
               </div>
             </motion.div>
           ))}
@@ -237,7 +213,7 @@ export default function ClubsPage() {
         {/* Изображение схемы зала */}
         <div className="cyber-panel overflow-hidden">
           <img
-            src={HALL_IMAGES[active.slug]}
+            src={active.images.hall}
             alt={`Схема зала ${active.name}`}
             className="w-full object-contain"
           />

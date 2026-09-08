@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, staggerItem, cardHover } from "@/lib/animations";
-import { CLUBS, totalPcCount } from "@/lib/site-data";
+import { CLUBS, clubStatusLabel, getLowestClubPrice, totalNetworkPcCount, totalPcCount } from "@/lib/site-data";
 
 export default function HomePage() {
   return (
@@ -57,12 +57,12 @@ export default function HomePage() {
                 </span>
                 <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
                   <span className="h-1.5 w-1.5 animate-glow-pulse rounded-full bg-emerald-400" />
-                  Открыто
+                  {clubStatusLabel(club.status)}
                 </span>
               </div>
               <p className="mt-1 text-xs text-white/35">{club.address}</p>
               <p className="mt-3 font-display text-2xl font-bold text-brand">
-                от {Math.min(...club.zones.map((z) => z.pricePerHour))} <span className="text-sm font-medium text-white/50">руб/час</span>
+                от {getLowestClubPrice(club)} <span className="text-sm font-medium text-white/50">руб/час</span>
               </p>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 <span className="border border-white/10 px-2 py-1 text-[10px] uppercase tracking-wider text-white/60">
@@ -81,7 +81,7 @@ export default function HomePage() {
                 Подробнее о клубе →
               </Link>
               <a
-                href={club.yandexMapsUrl}
+                href={club.mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-white/60 transition-colors hover:text-brand"
@@ -137,8 +137,8 @@ export default function HomePage() {
           className="mx-auto mt-10 max-w-5xl grid grid-cols-4 gap-4"
         >
           {[
-            { value: "125+", label: "игровых ПК" },
-            { value: "360Hz", label: "мониторы в VIP" },
+            { value: `${totalNetworkPcCount(CLUBS)}+`, label: "игровых ПК" },
+            { value: `${Math.max(...CLUBS.flatMap((club) => club.zones.map((zone) => zone.specs.refreshRate)))}Hz`, label: "мониторы в VIP" },
             { value: "25%", label: "кешбэк Legend" },
             { value: "24/7", label: "ОТКРЫТЫ" },
           ].map((stat) => (

@@ -41,7 +41,7 @@ export function Footer() {
           <ul className="space-y-2.5 text-sm text-white/50">
             <li>
               <a href="tel:+375293193015" className="transition-colors hover:text-white">
-                +375 29 319 30 15
+                {CLUBS[0].phone}
               </a>
             </li>
             <li>
