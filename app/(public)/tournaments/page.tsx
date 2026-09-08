@@ -1,3 +1,22 @@
+import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/site-config";
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || SITE_URL;
+
+export const metadata: Metadata = {
+  title: "Турниры | PIXEL",
+  description: "Турниры и киберспортивные события в компьютерных клубах PIXEL.",
+  alternates: {
+    canonical: `${siteUrl}/tournaments`,
+  },
+  openGraph: {
+    title: "Турниры | PIXEL",
+    description: "Турниры и киберспортивные события в компьютерных клубах PIXEL.",
+    url: `${siteUrl}/tournaments`,
+    type: "website",
+  },
+};
+
 export default function TournamentsPage() {
   return (
     <main className="mx-auto flex min-h-[70vh] max-w-4xl items-center justify-center px-6 pb-24 pt-32 md:px-10">
