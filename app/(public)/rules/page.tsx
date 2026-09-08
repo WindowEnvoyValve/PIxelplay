@@ -49,7 +49,7 @@ export default function RulesPage() {
       <div className="mt-12 text-center">
         <p className="text-sm text-white/35">
           Вопросы? Пишите в{" "}
-          <Link href={SOCIAL_LINKS.telegram} target="_blank" className="text-brand hover:underline">
+          <Link href={SOCIAL_LINKS.telegram} target="_blank" rel="noopener noreferrer" className="text-brand hover:underline">
             Telegram
           </Link>{" "}
           или звоните{" "}
