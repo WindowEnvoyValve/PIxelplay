@@ -24,6 +24,7 @@ test("identifiers are normalized before persistence", () => {
   assert.equal(normalizeLogin(" Player.One "), "player.one");
   assert.equal(normalizeEmail(" USER@Example.COM "), "user@example.com");
   assert.equal(normalizePhone(" +375 (29) 123-45-67 "), "+375291234567");
+  assert.equal(normalizePhone("8 (029) 123-45-67"), "+375291234567");
   assert.equal(normalizeIdentifier(" Player.One "), "player.one");
 });
 
