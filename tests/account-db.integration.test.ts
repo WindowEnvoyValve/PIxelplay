@@ -159,33 +159,6 @@ test("email verification and password reset tokens are single-use, expiring, and
       userId: user.id,
     });
 
-    test("password reset request has an equivalent response for existing and unknown emails", integrationOptions, async () => {
-      const db = getDb();
-      const [user] = await db.insert(users).values({
-        login: `stage5b_request_${randomUUID().slice(0, 8)}`,
-        phone: `+375291${randomInt(100000, 999999)}`,
-        email: `stage5b_request_${randomUUID().slice(0, 8)}@example.com`,
-        passwordHash: await hashPassword("old-password-123"),
-      }).returning({ id: users.id, email: users.email });
-
-      try {
-        const makeRequest = (email: string) => new NextRequest("http://127.0.0.1:3000/api/auth/password-reset/request", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            "x-forwarded-for": randomUUID(),
-          },
-          body: JSON.stringify({ email }),
-        });
-        const existingResponse = await requestPasswordReset(makeRequest(user.email));
-        const unknownResponse = await requestPasswordReset(makeRequest("unknown@example.com"));
-        assert.equal(existingResponse.status, unknownResponse.status);
-        assert.deepEqual(await existingResponse.json(), await unknownResponse.json());
-      } finally {
-        await db.delete(users).where(eq(users.id, user.id));
-      }
-    });
-
     const resetToken = await issuePasswordResetToken(user.id);
     const newPasswordHash = await hashPassword("new-password-123");
     assert.equal(await resetPasswordWithToken(resetToken, newPasswordHash), true);
@@ -200,6 +173,33 @@ test("email verification and password reset tokens are single-use, expiring, and
     await db.update(passwordResetTokens).set({ expiresAt: new Date(Date.now() - 1_000) })
       .where(eq(passwordResetTokens.userId, user.id));
     assert.equal(await resetPasswordWithToken(expiredResetToken, newPasswordHash), false);
+  } finally {
+    await db.delete(users).where(eq(users.id, user.id));
+  }
+});
+
+test("password reset request has an equivalent response for existing and unknown emails", integrationOptions, async () => {
+  const db = getDb();
+  const [user] = await db.insert(users).values({
+    login: `stage5b_request_${randomUUID().slice(0, 8)}`,
+    phone: `+375291${randomInt(100000, 999999)}`,
+    email: `stage5b_request_${randomUUID().slice(0, 8)}@example.com`,
+    passwordHash: await hashPassword("old-password-123"),
+  }).returning({ id: users.id, email: users.email });
+
+  try {
+    const makeRequest = (email: string) => new NextRequest("http://127.0.0.1:3000/api/auth/password-reset/request", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-forwarded-for": randomUUID(),
+      },
+      body: JSON.stringify({ email }),
+    });
+    const existingResponse = await requestPasswordReset(makeRequest(user.email));
+    const unknownResponse = await requestPasswordReset(makeRequest("unknown@example.com"));
+    assert.equal(existingResponse.status, unknownResponse.status);
+    assert.deepEqual(await existingResponse.json(), await unknownResponse.json());
   } finally {
     await db.delete(users).where(eq(users.id, user.id));
   }
