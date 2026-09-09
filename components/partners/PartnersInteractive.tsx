@@ -486,14 +486,6 @@ export default function PartnersInteractive() {
                 </a>
               ))}
             </div>
-            <a
-              href={SOCIAL_LINKS.telegram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="partners-contact cyber-button !px-5 !py-2"
-            >
-              Связаться
-            </a>
             <button
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
@@ -541,7 +533,7 @@ export default function PartnersInteractive() {
       </header>
 
       {/* Контент */}
-      <div className="mx-auto max-w-7xl px-4 pb-16 pt-28 md:px-8">
+      <div className="partners-content mx-auto max-w-7xl px-4 pb-16 pt-28 md:px-8">
         {/* Табы для узких экранов */}
         <div aria-label="Разделы партнёрства" role="tablist" className="mb-8 grid grid-cols-2 gap-2 lg:hidden">
           {TABS.map((tab) => (

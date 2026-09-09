@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1788897273210,
+      "tag": "0000_smiling_venus",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788903405028,
+      "tag": "0001_quiet_risque",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788903568210,
+      "tag": "0002_shallow_wong",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1788905686595,
+      "tag": "0003_warm_omega_flight",
+      "breakpoints": true
+    }
+  ]
+}

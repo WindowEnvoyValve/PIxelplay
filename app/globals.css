@@ -197,6 +197,25 @@ button:focus-visible {
     transition-duration: 0.01ms !important;
   }
 
+  @media (min-width: 2200px) {
+    .home-hero {
+      max-width: 1200px;
+    }
+
+    .home-hero h1 {
+      font-size: 6rem;
+    }
+
+    .home-club-grid,
+    .home-stats {
+      max-width: 1200px;
+    }
+
+    .partners-content {
+      max-width: 1440px;
+    }
+  }
+
   video {
     display: none;
   }
@@ -312,6 +331,119 @@ button:focus-visible {
 
 .cyber-input::placeholder {
   color: rgba(255, 106, 0, 0.5);
+}
+
+.account-action {
+  display: flex;
+  min-height: 3.8rem;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.7rem;
+  background: rgba(255, 255, 255, 0.035);
+  padding: 0.65rem 0.7rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.78rem;
+  line-height: 1.15;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.account-action:hover,
+.account-action:focus-visible {
+  border-color: rgba(255, 106, 0, 0.55);
+  background: rgba(255, 106, 0, 0.1);
+  color: #fff;
+}
+
+.account-secondary-action {
+  display: inline-flex;
+  min-height: 2.65rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.75rem;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.account-secondary-action:hover,
+.account-secondary-action:focus-visible {
+  border-color: rgba(255, 106, 0, 0.55);
+  color: #fff;
+}
+
+.account-logout {
+  display: inline-flex;
+  min-height: 2.65rem;
+  width: 2.9rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  border-radius: 0.65rem;
+  background: rgba(248, 113, 113, 0.12);
+  color: #fecaca;
+  font-size: 1.1rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.account-logout:hover:not(:disabled),
+.account-logout:focus-visible {
+  border-color: rgba(248, 113, 113, 0.7);
+  background: rgba(248, 113, 113, 0.2);
+}
+
+.account-logout:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.account-launcher {
+  position: fixed;
+  right: 1rem;
+  top: 1rem;
+  z-index: 51;
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: 0.55rem;
+  border: 2px solid rgba(255, 106, 0, 0.9);
+  border-radius: 999px;
+  background: rgba(9, 10, 12, 0.94);
+  padding: 0.18rem 0.7rem 0.18rem 0.28rem;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.7rem;
+  font-weight: 700;
+  box-shadow: 0 0 0 2px rgba(255, 106, 0, 0.18), 0 0 20px rgba(255, 106, 0, 0.2);
+  backdrop-filter: blur(12px);
+}
+
+@media (max-width: 767px) {
+  .account-launcher {
+    right: 3.9rem;
+    top: 0.75rem;
+    z-index: 52;
+  }
+}
+
+.account-launcher:hover,
+.account-launcher:focus-visible {
+  border-color: rgba(255, 106, 0, 0.8);
+  color: #fff;
+}
+
+.account-launcher-avatar {
+  display: inline-flex;
+  height: 1.7rem;
+  width: 1.7rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 106, 0, 0.2);
+  color: var(--color-brand-light);
+  font-size: 0.6rem;
+  font-weight: 800;
 }
 
 /* ---------- Градиентный текст с переливом ---------- */

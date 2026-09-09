@@ -1,8 +1,10 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { SITE_URL, SOCIAL_LINKS } from "@/lib/site-config";
+import { getCurrentUser } from "@/lib/auth/session";
+import { AccountOverlay } from "@/components/account/AccountOverlay";
 
-export default function PublicLayout({ children }: { children: React.ReactNode }) {
+export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -16,6 +18,18 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       SOCIAL_LINKS.youtube,
     ],
   };
+
+  const user =
+    process.env.NODE_ENV === "development" && process.env.PREVIEW_ACCOUNT === "1"
+      ? {
+          login: "PixelPlayUser",
+          email: "demo@pixelplay.local",
+          phone: "+7 900 000-00-00",
+          status: "active",
+          createdAt: new Date("2026-01-01T00:00:00.000Z"),
+          emailVerifiedAt: new Date("2026-01-01T00:00:00.000Z"),
+        }
+      : await getCurrentUser();
 
   return (
     <div className="relative flex min-h-screen flex-col">
@@ -46,6 +60,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         <div className="absolute bottom-[-10%] left-1/2 h-[300px] w-[700px] -translate-x-1/2 rounded-full bg-white/[0.045] blur-[130px]" />
       </div>
       <Navbar />
+      <AccountOverlay user={user} />
       <div className="relative flex-1">{children}</div>
       <Footer />
     </div>

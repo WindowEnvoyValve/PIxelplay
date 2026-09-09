@@ -31,10 +31,10 @@ const MOBILE_NAV_ITEMS = [
 ];
 
 const SOCIALS = [
-  { label: "Instagram", href: SOCIAL_LINKS.instagram, hover: "hover:border-[#E1306C]/70", file: "instagram" },
-  { label: "TikTok", href: SOCIAL_LINKS.tiktok, hover: "hover:border-white/80", file: "tiktok" },
-  { label: "Telegram", href: SOCIAL_LINKS.telegram, hover: "hover:border-[#229ED9]/70", file: "telegram" },
-  { label: "YouTube", href: SOCIAL_LINKS.youtube, hover: "hover:border-[#FF0000]/70", file: "youtube" },
+  { label: "Instagram", href: SOCIAL_LINKS.instagram, hover: "hover:border-[#E1306C]/70", file: "instagram", filter: "invert(31%) sepia(88%) saturate(1700%) hue-rotate(300deg) brightness(95%) contrast(92%)" },
+  { label: "TikTok", href: SOCIAL_LINKS.tiktok, hover: "hover:border-white/80", file: "tiktok", filter: "brightness(0) invert(1)" },
+  { label: "Telegram", href: SOCIAL_LINKS.telegram, hover: "hover:border-[#229ED9]/70", file: "telegram", filter: "invert(48%) sepia(85%) saturate(980%) hue-rotate(166deg) brightness(92%) contrast(91%)" },
+  { label: "YouTube", href: SOCIAL_LINKS.youtube, hover: "hover:border-[#FF0000]/70", file: "youtube", filter: "invert(17%) sepia(99%) saturate(7480%) hue-rotate(358deg) brightness(94%) contrast(117%)" },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -138,8 +138,8 @@ export function Navbar() {
           <Logo priority size={scrolled ? 100 : 120} className="shrink-0 transition-all duration-300" />
 
           {/* Desktop nav */}
-          <nav className="absolute inset-x-0 hidden h-8 lg:block">
-            <div className="absolute right-[calc(50%+86px)] top-0 flex items-center gap-2">
+          <nav className="pointer-events-none absolute inset-x-0 hidden h-8 xl:block">
+            <div className="pointer-events-auto absolute right-[calc(50%+86px)] top-0 flex items-center gap-2">
               {NAV_ITEMS.slice(0, 4).map((item) => {
                 const active = isActive(pathname, item.href);
                 return (
@@ -158,10 +158,10 @@ export function Navbar() {
                 );
               })}
             </div>
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <LetsPlayShowcase />
             </div>
-            <div className="absolute left-[calc(50%+86px)] top-0 flex items-center gap-2">
+            <div className="pointer-events-auto absolute left-[calc(50%+86px)] top-0 flex items-center gap-2">
               {NAV_ITEMS.slice(4).map((item) => {
                 const active = isActive(pathname, item.href);
                 return (
@@ -182,29 +182,11 @@ export function Navbar() {
             </div>
           </nav>
 
-          <div className="ml-auto hidden items-center gap-5 lg:flex">
-            <div className="flex items-center gap-2">
-              {SOCIALS.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  title={s.label}
-                  className={`flex h-8 w-8 items-center justify-center transition-all group ${s.hover}`}
-                >
-                  <Image src={`/${s.file}.svg`} alt={s.label} width={20} height={20} className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100" />
-                </a>
-              ))}
-            </div>
-          </div>
-
           <button
             type="button"
             ref={menuButtonRef}
             onClick={toggleMobileMenu}
-            className="ml-auto flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
+            className="ml-auto flex h-10 w-10 flex-col items-center justify-center gap-1.5 xl:hidden"
             aria-label="Меню"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation"
@@ -213,6 +195,27 @@ export function Navbar() {
             <motion.span animate={{ opacity: mobileMenuOpen ? 0 : 1 }} className="h-0.5 w-6 bg-white" />
             <motion.span animate={{ rotate: mobileMenuOpen ? -45 : 0, y: mobileMenuOpen ? -6 : 0 }} className="h-0.5 w-6 bg-brand" />
           </button>
+        </div>
+
+        <div className="fixed left-4 top-[50vh] z-[60] hidden -translate-y-1/2 flex-col items-center gap-3 xl:flex">
+          <span className="rotate-180 font-display text-[10px] font-bold uppercase tracking-[0.28em] text-white/55 [writing-mode:vertical-rl]">
+            Соцсети
+          </span>
+          <div className="flex flex-col items-center gap-3">
+            {SOCIALS.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+                title={s.label}
+                className={`flex h-10 w-10 items-center justify-center transition-all group ${s.hover}`}
+              >
+                <Image src={`/${s.file}.svg`} alt={s.label} width={22} height={22} style={{ filter: s.filter }} className="h-[22px] w-[22px] object-contain opacity-90 group-hover:opacity-100" />
+              </a>
+            ))}
+          </div>
         </div>
 
         {/* Mobile menu */}
@@ -227,7 +230,7 @@ export function Navbar() {
               exit={{ opacity: 0, height: 0, y: -8, scaleY: 0.96 }}
               transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
               style={{ transformOrigin: "top center" }}
-              className="overflow-hidden rounded-b-3xl border-x border-b border-brand/20 bg-[#090b10]/[0.97] shadow-[0_24px_60px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,106,0,0.12)] backdrop-blur-xl lg:hidden"
+              className="overflow-hidden rounded-b-3xl border-x border-b border-brand/20 bg-[#090b10]/[0.97] shadow-[0_24px_60px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,106,0,0.12)] backdrop-blur-xl xl:hidden"
             >
               <div className="flex flex-col gap-2 px-4 py-5 sm:px-6">
                 <motion.div
@@ -309,7 +312,8 @@ export function Navbar() {
                           alt={s.label}
                           width={20}
                           height={20}
-                          className="h-5 w-5 object-contain invert opacity-70 group-hover:opacity-100"
+                          style={{ filter: s.filter }}
+                          className="h-5 w-5 object-contain opacity-90 group-hover:opacity-100"
                         />
                       </a>
                     ))}

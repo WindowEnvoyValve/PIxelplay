@@ -30,7 +30,7 @@ export default function HomePage() {
 
       {/* Hero */}
       <motion.section
-        className="mx-auto flex max-w-5xl flex-col items-center px-4 pb-20 pt-16 text-center sm:px-6 md:pt-24"
+        className="home-hero mx-auto flex max-w-5xl flex-col items-center px-4 pb-20 pt-16 text-center sm:px-6 md:pt-24"
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
@@ -66,7 +66,7 @@ export default function HomePage() {
         </motion.div>
 
         {/* Карточки клубов */}
-        <motion.div variants={staggerItem} className="mx-auto grid w-full max-w-5xl gap-4 md:grid-cols-3">
+        <motion.div variants={staggerItem} className="home-club-grid mx-auto grid w-full max-w-5xl gap-4 md:grid-cols-3">
           {CLUBS.map((club, i) => (
             <motion.div key={club.slug} className="cyber-panel flex flex-col p-3.5 text-left sm:p-5" {...cardHover} custom={i}>
               <div className="flex items-center justify-between">
@@ -150,7 +150,7 @@ export default function HomePage() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="mx-auto mt-10 grid w-full max-w-5xl grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4"
+          className="home-stats mx-auto mt-10 grid w-full max-w-5xl grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4"
         >
           {[
             { value: `${totalNetworkPcCount(CLUBS)}+`, label: "игровых ПК" },

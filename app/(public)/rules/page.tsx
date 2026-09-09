@@ -135,7 +135,7 @@ export default function RulesPage() {
     <main className="mx-auto max-w-4xl px-4 pb-24 pt-32 sm:px-6 md:px-10">
       <div className="page-reveal mb-10 text-center">
         <p className="mb-3 text-xs uppercase tracking-[0.4em] text-brand">Информация</p>
-        <h1 className="font-display text-3xl font-black text-white sm:text-4xl md:text-5xl">
+        <h1 className="break-normal font-display text-[clamp(1.4rem,7vw,2.25rem)] font-black leading-[1.08] text-white sm:text-4xl md:text-5xl">
           ПРАВИЛА ПОСЕЩЕНИЯ КИБЕРСПОРТИВНОГО КЛУБА <span className="text-gradient-brand">«PIXEL»</span>
         </h1>
       </div>
