@@ -10,7 +10,9 @@ export function normalizeEmail(value: string) {
 
 export function normalizePhone(value: string) {
   const compact = value.trim().replace(/[\s().-]/g, "");
-  return compact.startsWith("00") ? `+${compact.slice(2)}` : compact;
+  if (compact.startsWith("00")) return `+${compact.slice(2)}`;
+  if (/^8\d{10}$/.test(compact)) return `+375${compact.slice(2)}`;
+  return compact;
 }
 
 export function normalizeIdentifier(value: string) {
