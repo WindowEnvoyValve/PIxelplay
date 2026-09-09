@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { AccountShell } from "@/components/account/AccountShell";
 
 type AccountUser = {
@@ -13,7 +14,12 @@ type AccountUser = {
 };
 
 export function AccountOverlay({ user }: { user: AccountUser | null }) {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  if (pathname === "/account" || pathname.startsWith("/account/")) {
+    return null;
+  }
 
   return (
     <>
